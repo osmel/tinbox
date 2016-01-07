@@ -1,0 +1,370 @@
+   /*
+    ///////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////General para todos////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////
+    */
+
+
+
+    * {
+        font-family: "Myriad Pro", "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+        font-size: 13px;
+        color: #9e9e9e;
+        line-height: 1.4;
+    }
+
+    body{
+        margin: 0px auto;
+        background-color: white; /* rgb(1,125,254); */
+    }
+
+
+
+
+    /*
+    ///////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////CONTENIDOS////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////
+    */
+
+
+     #contenido{
+
+            height: auto;
+            width: 100%;
+            background-color: white; 
+    }
+
+
+    /*
+    ///////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////PIE////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////
+    */
+
+    #pie{
+            height: 304px;
+            width: 100%;
+            background-color: #333; /*color del footer*/
+            color: #9e9e9e; /*color de las letras*/
+    }
+
+    #contenido_pie{
+            height: 85%;
+            width: 100%;
+    }
+
+
+    #raya_pie{
+        height: 2px; /*alto*/
+        width: 100%;
+        background-color: #242424; /*color de la raya footer*/
+        float: left;
+    }
+    #ultimo_pie{
+        height: 15%;
+        width: 100%;
+        background-color: #2a2a2a;
+        float: left;
+    }
+
+
+    #centro_contenido_pie {
+          width: 80%;
+          margin: 0 auto;
+          border:1px solid blue;
+    }
+
+    #col1_centro_contenido_pie{
+        float: left;
+        width: 25%;
+    }
+    #col2_centro_contenido_pie{
+     float: left;   
+    }
+    #col3_centro_contenido_pie{
+        float: right;
+        width: 25%;
+    }
+
+    #col1_medio{
+        float: left;
+        width: 50%;
+    }
+
+    #col2_medio{
+        float: right;
+        width: 49%;
+    }    
+
+
+    /* texto*/
+
+    .medio_texto_arriba {
+        font-size: 18px;
+        font-weight: bold;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        text-align: center;
+
+    }
+
+    .medio_texto {
+        font-size: 12px;
+        float: left;
+        width: 60%;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #3b3b3b;
+
+    }
+
+    #col2_centro_contenido_pie a {
+        color: #9e9e9e; /*color de las letras*/
+        text-decoration: none;
+    }
+
+
+    #elm1{
+        background: url(sprites.png) -327px -58px no-repeat;
+        float: left;
+        width: 42px;
+        height: 42px;
+        margin: 6px 2px 5px 1px;
+    }
+
+
+   /*
+    ///////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////CABECERAS////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////
+    */
+
+
+    #cabecera{
+        position: fixed;
+        z-index: 997;
+        width: 100%;
+        
+        font-size: 13px;
+        line-height: 1.6;
+        font-family: 'PT Sans',sans-serif!important;
+        /* border: 4px solid yellow;  */
+        height: 100px;
+    }
+
+    /*barra negra con texto*/
+    #barranegra {
+        background-color: #555;
+        width: 100%;
+        /* border: 4px solid green; */
+    }
+
+    #caja_texto_negro {
+        text-align:center;
+        width: 80%;
+        margin: 0 auto;
+        display: block;
+        /* border: 2px solid white; */
+    }
+
+    /*barra roja con menu*/
+
+        #barraroja {
+            width: 100%;
+            height: auto; /*61px;*/
+            background-color: rgb(1,125,254);
+            border: 0px;  
+            border-radius: 3px;
+
+        }
+
+        .navbar{
+            margin-bottom: 0px;
+        }
+        #caja_menu {
+            
+            width:80%;
+            margin: 0 auto;
+            height: auto;
+            /* border: 3px solid white; */
+        }
+
+
+        #todo_logo_menu{
+            float:left;
+            height: auto;
+            overflow: hidden; 
+        }
+
+
+        .todo_texto_menu{ /*elementos del menu*/
+            float:right;
+
+            height: auto;
+            cursor: pointer;
+            
+            margin-top: 0px;
+            
+             /* border: 8px solid blue;*/
+            /*
+                overflow: hidden; ocultar cuando exceda de 42px
+                height: 42px;
+            */
+
+        }
+
+        @media (max-width: 992px) {
+            .todo_texto_menu{ /*elementos del menu*/
+                    float:left;
+
+                    height: auto;
+                    cursor: pointer;
+                    
+                    margin-top: 0px;
+                    
+                     /* border: 8px solid blue;*/
+                    /*
+                        overflow: hidden; ocultar cuando exceda de 42px
+                        height: 42px;
+                    */
+
+                }
+
+        }        
+
+
+
+
+        .elem_menu {
+                text-align:center;
+                padding: 0px 20px;
+            
+              font-size: 14px;
+                  color: #FFF !important;
+            font-weight: bold;
+             border-right: 4px solid #FFF;
+
+              /*min-height: 70px;*/
+
+            float: left; /* no hace falta si el contenido de los enlaces no tuviesen <br/> */
+            
+
+            
+            /*
+            border-right: 3px solid;
+                height: 100%;
+                min-height: 69px;
+
+            border: 8px solid black;*/
+        }
+
+  
+
+
+
+    /*
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////Espacio entre menu y carrusel////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////
+    */
+    #espacio {
+        /* padding-top: 97px; espacio para empujar el carrusel abajo*/
+    }
+
+
+    #logo1{
+        height:60px;
+        width:180px;
+    }
+
+
+   /*
+    ///////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////carrusel////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////
+    */
+
+    .container {
+        display: block;
+        width: 960px;
+        margin: 0 auto;
+    }
+
+    .caja_carrusel {
+        width: 565px!important;
+        position: absolute;
+        margin-left: 0;
+        bottom: 31px;
+        background-color: rgb(1,125,254);
+        opacity: 0.8;
+    }
+
+    .texto_carrusel {
+        margin: 10px;
+        color: #FFF;
+    }
+
+    .tituloCarruselGen {
+        color: #FFF;
+        text-align: left;
+        display: table;
+    }
+
+    .tituloCarruselGen h2 {
+        color: #FFF;
+    }
+
+    .tituloCarruselGen h2 {
+        color: #FFF;
+    }
+
+    .tituloCarrusel {
+        color: #FFF;
+        text-align: left;
+        display: table;
+    }
+
+
+    .texto_carrusel h4 {
+        margin: 0 0 15px;
+        font-weight: 400;
+    }
+
+.textinterior_carrusel {
+    color: #FFF;
+    width: 94%;
+}
+
+.leermas {
+    bottom: 0;
+    right: 0;
+    background: #555;
+    height: 20px;
+    padding: 10px 15px;
+    width: 100px;
+    float: right;
+}
+
+.ui-widget-content a {
+    color: #222222/*{fcContent}*/;
+}
+.leermas h2 {
+    color: #fff;
+}
+
+
+ul.menu-lista{
+    background-color: rgb(1,125,254);
+}
+
+/*los dropDown de listas como preguntas*/
+.dropdown-toggle, li.active > a {
+    background-color: rgb(1,125,254) !important;
+    color: #fff !important;
+}
+
+a:hover {
+    background-color: rgb(115,125,254) !important;
+}
+

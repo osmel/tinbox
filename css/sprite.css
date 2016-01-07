@@ -1,0 +1,63 @@
+/*sprites Barra Flotante Lateral*/
+.icon{
+	display: inline-block;	
+	margin-top: 1px;
+	line-height: 14px;
+	vertical-align: text-top;
+	background-image: url("../img/sprites.png");	
+	background-repeat: no-repeat;
+}
+.flot_1{
+	background-position: -5px -5px;
+	width: 27px;
+	height: 30px;
+}
+.flot_2{
+	background-position: -28px -5px;
+	width: 27px;
+	height: 30px;
+}
+.flot_3{
+	background-position: -55px -7px;
+	width: 27px;
+	height: 30px;
+}
+.flot_4{
+	background-position: -86px -5px;
+	width: 27px;
+	height: 30px;
+}
+.flot_5{
+	background-position: -118px -5px;
+	width: 27px;
+	height: 30px;
+}
+.flot_6{
+	background-position: -152px -5px;
+	width: 27px;
+	height: 30px;
+}
+.flot_7{
+	background-position: -188px -5px;
+	width: 27px;
+	height: 30px;
+}
+.lupa_icon{
+   background-position: -45px -185px;
+   width: 30px;
+   height: 30px;
+}
+.bullet_categorias{
+    background-position: -175px -70px;
+    width: 13px;
+	height: 20px;
+	float: left;
+	margin-top: 11px;
+}
+.bullet_categorias2{
+    background-position: -175px -70px;
+    width: 13px;
+	height: 20px;
+	float: left;
+	margin-top: 8px;
+}

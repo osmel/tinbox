@@ -1,0 +1,117 @@
+@charset 'utf-8';
+.container { width: 100% !important;}
+#screen {
+}
+
+	#screen #main-cont {
+		overflow: auto;
+	}
+
+		#screen #main-cont .section-one{
+			background: #ffffff;
+		}
+
+			#screen #main-cont .section-one .subsection{
+				background: #f4f4f4;
+        border: 1px solid #0079ff;  
+			}
+
+				#screen #main-cont .section-one .subsection h3 {
+					padding: 9px 0 9px 0;
+          text-align: center;
+          font-weight: bold;
+          background-color: #0079ff;
+          margin-bottom: 0px;
+          border-bottom: solid 2px #0079ff;
+          border-top: solid 2px #0079ff;
+          color: #fff;
+              text-transform: uppercase;
+				}
+
+				#screen #main-cont .section-one .subsection p {
+					background: #C6E0EE;
+					text-align: center;
+					font-weight: bold;
+          font-size: 90px !important;
+				}
+
+		#screen #main-cont .section-two {
+      margin-top: 20px;
+      
+      padding-bottom: 70px;
+		}
+
+			#screen #main-cont .section-two h1 {
+				margin: 0;
+				font-weight: bold;
+				color: #0079ff;
+        text-align: center;
+        line-height: 95px !important;
+        font-size: 50px !important;
+			}
+
+			#screen #main-cont .section-two .subsection {
+				height: 9%;
+				background: #acd3fe;
+        border: 10px solid #0079ff;
+			}
+
+      #screen #main-cont .section-two .subsection p span {
+        font-size: 30px !important;
+        line-height: 50px !important;
+        display: block;
+        text-align: center;
+        margin: 8px 0;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+
+			#screen #main-cont .section-two .subsection.non {
+				
+				background: #79b7fb;
+			}
+
+				#screen #main-cont .section-two .subsection span.num {
+					font-size: 90px !important;
+          margin-bottom: 35px;
+					font-weight: bold;
+				}
+
+.no-margins {
+	margin: 0;
+	padding: 0;
+}
+
+.full-h {
+	height: auto;
+}
+
+/* RESPONSIVE */
+
+	/* XS */
+	@media (max-width: 767px) {
+		#screen #main-cont .section-one .subsection{
+			height: 33.33%;
+		}
+	}
+
+	/* SM */
+	@media (min-width: 768px) and (max-width: 991px){
+		#screen #main-cont .section-one .subsection{
+			height: 33.33%;
+		}
+	}
+
+	/* MD */
+	@media (min-width: 992px) and (max-width: 1199px){
+		#screen #main-cont .section-one .subsection{
+			height: 50%;
+		}
+	}
+
+	/* LG */
+	@media (min-width: 1200px){
+		#screen #main-cont .section-one .subsection{
+			min-height: 300px;
+		}
+	}

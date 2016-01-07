@@ -1,0 +1,79 @@
+@charset "utf-8";
+@import url(http://fonts.googleapis.com/css?family=Raleway:400,700,900);
+
+body {
+	font-family: 'Raleway',sans-serif !important;
+	background: none !important;
+}
+
+input,select,textarea {
+	margin: 4px 0 !important;
+
+	height: 42px !important;
+
+	border: 2px solid #aaaaaa !important;
+	border-radius: 0 !important;
+
+	font-size: 15px !important;
+}
+
+input:focus,select:focus,textarea:focus {
+	box-shadow: none !important;
+	transition: none !important;
+}
+
+#main-wrapper {
+	position: relative;
+	margin: 0 auto;
+	padding: 0 7%;
+
+	width: 100%;
+	max-width: 970px;
+
+	background: none;
+}
+
+div.form-container{
+	position: relative;
+	margin: 0px 0 50px;
+}
+
+.form-container div.stretch {
+	height: auto !important;
+	margin: 0 !important;
+	padding: 0 6% !important;
+	clear: both !important;
+}
+
+.form-container div.stretch label {
+	display: block !important;
+	font-weight: normal !important;
+}
+
+.form-container div.stretch h5 {
+	margin-top: 20px !important;
+	font-size: 15px !important;
+	line-height: 15px !important;
+}
+
+.form-container div#otroacomp{
+	border-radius: 0 !important;
+}
+
+.form-container button#form-send {
+	padding: 0px;
+	height: 26px !important;
+	width: 100% !important;
+
+	border:none !important;
+	background: #DC1A1A !important;
+	border-radius: 0 !important;
+
+	letter-spacing: 1px !important;
+	font: bold 18px/26px 'Raleway',sans-serif !important;
+	color: #ffffff !important;
+}
+
+.form-container .error {
+	width: 100% !important;
+}

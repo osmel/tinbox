@@ -1,0 +1,103 @@
+
+    .caja_carrusel {
+        width: 60%;
+        margin-left: 0;
+        bottom: 42%; /*31px;*/
+        
+        position: absolute;
+        background-color: rgb(1,125,254);
+        opacity: 0.8;
+    }
+
+
+
+
+    .texto_carrusel {
+        margin: 0px;
+        color: #FFF;
+    }
+
+    .tituloCarruselGen {
+        color: #FFF;
+        text-align: left;
+        display: table;
+    }
+
+    .tituloCarruselGen h2 {
+        color: #FFF;
+    }
+
+    .tituloCarruselGen h2 {
+        color: #FFF;
+    }
+
+    .tituloCarrusel {
+        color: #FFF;
+        text-align: left;
+        display: table;
+        font-size: 12px;
+    }
+
+
+    .texto_carrusel h4 {
+        margin: 0 0 15px;
+        font-weight: 400;
+    }
+
+.textinterior_carrusel {
+    color: #FFF;
+    width: 94%;
+}
+
+.leermas {
+    bottom: 0;
+    right: 0;
+    background: #555;
+    height: 20px;
+    /*padding: 10px 15px;*/
+    width: 100px;
+    float: right;
+}
+
+.ui-widget-content a {
+    color: #222222/*{fcContent}*/;
+}
+
+
+.leermas h2 {
+        color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    /*color: #4C4C4C;*/
+    margin: 0;
+    max-width: 700px;
+}
+
+
+
+    .textinterior_carrusel, .tituloCarrusel{
+        display: none;
+    }
+
+    .tituloCarruselGen h2{
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+     @media (min-width: 992px) {
+        .textinterior_carrusel, .tituloCarrusel{
+            display: block;
+        }
+
+        .caja_carrusel {
+            width: 60%;
+            margin-left: 0;
+            bottom: 60%; /*31px;*/
+            
+            position: absolute;
+            background-color: rgb(1,125,254);
+            opacity: 0.8;
+        }
+
+
+     }       
