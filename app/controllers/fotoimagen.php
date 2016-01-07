@@ -8,18 +8,12 @@ class Fotoimagen extends CI_Controller {
         $this->load->library('Jquery_pagination');//-->la estrella del equipo		
 	}
 
-<<<<<<< HEAD
 	public function index($session) {
-=======
-	public function index($session){
-	
->>>>>>> origin/master
 
 		$data['session'] = base64_decode($session);
 
 		$data['datos'] = $this->modelo_fotoimagen->listado_disenos($data);
 
-<<<<<<< HEAD
 		$data['ano'] = date("Y");
 		$data['mes'] = date("m")-1;
 
@@ -27,19 +21,11 @@ class Fotoimagen extends CI_Controller {
 
       	//$data['id_diseno'] = '1';
       	$data['id_diseno'] = $num_diseno;
-=======
-		$data['id_diseno'] = '1';
-		$data['ano'] = date("Y");
-		$data['mes'] = date("m")-1;
-		//$data['dia'] = date("d");
-
->>>>>>> origin/master
 
 		if (isset($_POST['id_diseno'])) {
 				$data['id_diseno']   = $_POST['id_diseno'];
 				$data['ano']  		 = $_POST['ano'];
 				$data['mes']  		 = $_POST['mes'];
-<<<<<<< HEAD
 
 				/*
 				$data['id_diseno']   = 1;
@@ -48,10 +34,6 @@ class Fotoimagen extends CI_Controller {
 
 
 
-=======
-		} 
-
->>>>>>> origin/master
 		$this->form_validation->set_rules( 'imagen', 'imagen', 'required|xss_clean');
 		if ( $this->form_validation->run() == FALSE ){
 			echo validation_errors('<span class="error">','</span>');
@@ -187,7 +169,6 @@ class Fotoimagen extends CI_Controller {
 	}	
 
 
-<<<<<<< HEAD
 	public function num_diseno(){ 
 
       	$data['session']     = ($_POST['session']);
@@ -200,8 +181,6 @@ class Fotoimagen extends CI_Controller {
 
 	}
 
-=======
->>>>>>> origin/master
 //3- guardar imagen de recorte
 //  -checar si ya la imagen recortada a guardar existe
 

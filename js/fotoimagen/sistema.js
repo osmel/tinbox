@@ -82,7 +82,6 @@ function uploadFormData(formData) {
 
 $('body').on('click','.mes', function (e) {
 
-<<<<<<< HEAD
 	
 	//que no vuelva a cargar el mismo
     if ( ($('#mes').val())!=($(this).attr('nmes')) ) {
@@ -94,73 +93,18 @@ $('body').on('click','.mes', function (e) {
     			
 
 		   		$('#guardar').trigger('click');
-=======
-	//que no vuelva a cargar el mismo
-    if ( ($('#mes').val())!=($(this).attr('nmes')) ) {
-		   $('#guardar').trigger('click');
-
-		   mes = $(this).attr('nmes')
-		   $('#mes').val(mes);
-
-
-		   $('#id_diseno').val(1);
-
-
-		   $('#cont_img').remove();
-
-		   
-			//jQuery("#"+dependencia).trigger('change');
-		  // buscarImagen();
-
->>>>>>> origin/master
 
     }
 });	
 
-<<<<<<< HEAD
-=======
-/*
-$('body').on('click', '#guardar', function () {
-   
-
-		    var existe = ($('#image').attr('nombre'));	
-
-			if ( existe != undefined) {
-			   //console.log($('#image').attr('nombre'));	
-			   $('#guardar').trigger('click');
-			} 
-			
-
-
-		   //console.log($(this).attr('nmes'));
-		   mes = "0"; //pasar a enero del proximo diseno $(this).attr('nmes')
-		   $('#mes').val(mes);
-		   $('#cont_img').remove();
-
-		   
-			//jQuery("#"+dependencia).trigger('change');
-		   buscarImagen();
-
-
-});
-*/
-
-
->>>>>>> origin/master
 
 //1
 function buscarImagen() {
 	  
 	  var id_session = $('#session').val();
 	  var id_diseno = $('#id_diseno').val();
-<<<<<<< HEAD
 	  		var ano = $('#ano').val();
 	  		var mes = $('#mes').val();
-=======
-	  var ano = $('#ano').val();
-	  var mes = $('#mes').val();
-
->>>>>>> origin/master
 	$.ajax({
 		url: "http://localhost/tinbox/buscarimagen",
 		type: "POST",
@@ -190,7 +134,6 @@ function buscarImagen() {
 }
 
 
-<<<<<<< HEAD
 /*
 $('body').on('click', '#guardar', function () {
    
@@ -220,6 +163,4 @@ $('body').on('click', '#guardar', function () {
 
 
 
-=======
->>>>>>> origin/master
 

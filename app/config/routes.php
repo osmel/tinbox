@@ -67,13 +67,9 @@ $route['guardar_imagen']							= 'fotoimagen/guardar_imagen';
 $route['upload']									= 'fotoimagen/upload';
 $route['buscarimagen']								= 'fotoimagen/buscarimagen';
 
-<<<<<<< HEAD
 $route['num_diseno']								= 'fotoimagen/num_diseno';
 
 
-=======
-
->>>>>>> origin/master
 
 
 

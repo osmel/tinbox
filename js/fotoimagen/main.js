@@ -181,16 +181,10 @@ function guardar2() {
   var result;
 
 
-<<<<<<< HEAD
   var session = $('#session').val();
   var id_diseno = $('#id_diseno').val();
   var ano = $('#ano').val();
   var mes = $('#mes').val();
-=======
-  var id_diseno = 1;
-
-  
->>>>>>> origin/master
 
   
   var tipo_archivo= ($('#image').attr('tipo_archivo'));
@@ -202,23 +196,17 @@ function guardar2() {
   var ancho = ($('#image').attr('ancho'));
   var alto = ($('#image').attr('alto'));
 
-<<<<<<< HEAD
   
      if ($image.data('cropper')) {
 
           //alert('asdas');
             
-=======
-     if ($image.data('cropper')) {
-            var session = $('#session').val();
->>>>>>> origin/master
 
             var datoimagen = $image.cropper('getImageData');
             var datocanvas = $image.cropper('getCanvasData');
             
             var result =  $image.cropper('getCroppedCanvas'); //
             var datos =  $image.cropper('getData');
-<<<<<<< HEAD
 
             var datocropbox =  $image.cropper('getCropBoxData');
 
@@ -246,8 +234,6 @@ function guardar2() {
             formData.append('ano', ano);
             formData.append('mes', mes);
             //formData.append('dia', dia);
-=======
->>>>>>> origin/master
 
             formData.append('id_diseno', id_diseno);
 
@@ -347,12 +333,7 @@ function guardar3() {
 
             formData.append('id_diseno', id_diseno);
 
-<<<<<<< HEAD
             //guardar imagen      
-=======
-            
-
->>>>>>> origin/master
             $.ajax('http://localhost/tinbox/guardar_imagen', {
               method: "POST",
               data: formData,
@@ -539,7 +520,6 @@ $('body').on('click', '#guardar', function (e) {
 
 
 
-<<<<<<< HEAD
    var  hrefPost = function(verb, url, data, target) {
       var form = document.createElement("form");
       form.action = url;
@@ -602,8 +582,6 @@ function buscarImagen1() {
 
 
 
-=======
->>>>>>> origin/master
   // Tooltip
   $('[data-toggle="tooltip"]').tooltip();
 

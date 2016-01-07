@@ -6,13 +6,9 @@
 <input type="text" id="id_diseno" name="id_diseno" value="<?php echo $id_diseno; ?>" >
 <input type="text" id="ano" name="ano" value="<?php echo $ano; ?>" >
 <input type="text" id="mes" name="mes" value="<?php echo $mes; ?>" >
-<<<<<<< HEAD
 
 <input type="text" id="mesclick" name="mesclick" value="" >
 
-=======
-<!-- <input type="text" id="dia" name="dia" value="<?php echo $dia; ?>" > -->
->>>>>>> origin/master
 
 
 
@@ -122,17 +118,6 @@
 
       </div>
 
-<<<<<<< HEAD
-=======
-
-
-
-
-
-
-
-
->>>>>>> origin/master
 
 
 
