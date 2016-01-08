@@ -50,7 +50,7 @@ $route['404_override'] 					= '';
 
 $route['validacion_comprimir']							= 'fotocalendario/validacion_comprimir';
 
-$route['fotocalendario']							= 'fotocalendario/index';
+$route['fotocalendario/(:any)']							= 'fotocalendario/index/$1';
 $route['validar_nuevo_fotocalendario']				= 'fotocalendario/validar_nuevo_fotocalendario';
 
 $route['guardar_lista']							= 'fotocalendario/guardar_lista';

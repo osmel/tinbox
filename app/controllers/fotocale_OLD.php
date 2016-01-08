@@ -18,45 +18,22 @@ class Fotocalendario extends CI_Controller {
 		$data['id_session'] = base64_decode($session);		
 
 		$data['datos'] = $this->modelo_fotocalendario->correo_logueo($data);
-
 		
 		 if ($data['datos']){
 		 	   $data['cantDiseno_original'] = count($data['datos']);
 		 	   $data['cantDiseno']   = count($data['datos']);
-		 	      
-		 	      if (isset($_POST['id_tamano'])) {  //
-			 	      $data['posicionDiseno']   = $_POST['id_tamano'];
-				         $data['movposicion']   = $_POST['id_tamano'];
-
-		 	      } else {  //cuando se "refresque" o sea llamado por "primera vez"
-			 	      $data['posicionDiseno']   = $data['datos'][0]->id_tamano; //1; //leer el 1er tamaño
-				         $data['movposicion']   = $data['datos'][0]->id_tamano; //1; //leer el 1er tamaño
-
-		 	      }
-
-			      
+		 	   $data['posicionDiseno']   = $data['datos'][0]->id_tamano; //1; //leer el 1er tamaño
+			      $data['movposicion']   = $data['datos'][0]->id_tamano; //1; //leer el 1er tamaño
 			      $data['array_eliminar'] = '';
 			      $data['correo_activo']   = $data['datos'][0]->correo;
 			
-			   //catalogos
 			   $data['festividades'] = $this->modelo_fotocalendario->listado_festividades();
 			   $data['logos'] = $this->modelo_fotocalendario->listado_logos();		 	   
-
-	
-
-			//datos a mostrar nuevamente 
-			$data['id_tamano']   = $data['movposicion'] ;
-			$data['calendario']          = $this->modelo_fotocalendario->fotocalendario_edicion( $data );		 
-
-			//para mostrar las listas asociada a este usuario 
-			$data['listas'] = $this->modelo_fotocalendario->listado_listas($data);
-
-			$this->load->view( 'sitio/fotocalendario/seccion3', $data );	
-
+		 		//print_r($data['datos'][1]);	
+			   
+		 		//print_r($data['pedidos'][0]->correo);
 		 } 	
-		
-
-		
+		$this->load->view( 'sitio/fotocalendario/seccion3', $data );	
 	}
 
 	
@@ -88,7 +65,12 @@ class Fotocalendario extends CI_Controller {
 	
 	function noguardar_lista() {
 
+	          //generar uid
+ 		 	  //$data['uid_fotocalendario']   = 'FCAL'.date('Y').date('m').date('d').random_string('alpha',3).random_string('numeric',4);                		
+ 		 	  //$data['uid_lista']  			= 'LFCAL'.date('Y').date('m').date('d').random_string('alpha',3).random_string('numeric',4);                		
+	          
 	          $data['id_session']   = $this->input->post('id_session');
+
  		 	  
  		 	  if (!empty($_FILES)) {
 		          $config_adjunto['upload_path']    = './uploads/fotocalendario/';
@@ -107,35 +89,41 @@ class Fotocalendario extends CI_Controller {
 					} 	          
 		          
 		      }   
-	          
-	          $data['id_tamano']   =   $this->input->post('movposicion');	
-
 	          //el true al final es para convertirlo a Array de lo contrario será objeto
-	          // array creado con todos los "Dias y meses de el tamaño activo"
         	  $data['listadias']   = json_decode($this->input->post('listadias'),true);
 		      $data['nombre_mes']   = json_decode($this->input->post('nombre_mes'),true);
-		      
+
+		      //este es en caso de que se necesite guardar la lista
+		      $data['nombre_lista']   = $this->input->post('nombre_lista');
+		      $data['correo_lista']   = $this->input->post('correo_lista');
+		      //id_session activa
+
+		      	//
+
+		      //$data['cantDiseno']   = $this->input->post('cantDiseno');
+		      //$data['movposicion']   = $this->input->post('movposicion');
+
+		      //$data['id_diseno']   =  1; //$this->input->post('id_diseno');
+
+		      $data['id_tamano']   =   $this->input->post('movposicion');
 		      //datos personales
 		      $data['titulo']   = $this->input->post('titulo');
 		      $data['nombre']   = $this->input->post('nombre');
 		      $data['apellidos']   = $this->input->post('apellidos');
-		      
+		      //$data['logo']   =  'prueba.jpg'; // $this->input->post('logo');
 		      $data['coleccion_id_logo']   =  json_encode($this->input->post('coleccion_id_logo'));
 		      $data['id_dia']   = $this->input->post('id_dia');
 		      $data['id_mes']   = $this->input->post('id_mes');
 		      $data['id_festividad']   = $this->input->post('id_festividad');
-
 	          $data             =   $this->security->xss_clean($data);  
-	          $data['checar']          = $this->modelo_fotocalendario->check_existente_fotocalendario( $data );
+	          $checar          = $this->modelo_fotocalendario->check_existente_fotocalendario( $data );
 				
 			   //si existe ya registros borrarlos para crear nuevo		          
-	          if ($data['checar']!=false) {
-	          	  
-	        	  $eliminar          = $this->modelo_fotocalendario->eliminar_nombre_mes( $data );
-		          $eliminar          = $this->modelo_fotocalendario->eliminar_listadias( $data );
-		          $eliminar          = $this->modelo_fotocalendario->eliminar_fotocalendario( $data );
+	          if ($checar!=false) {
+	        	  $eliminar          = $this->modelo_fotocalendario->eliminar_nombre_mes( $checar );
+		          $eliminar          = $this->modelo_fotocalendario->eliminar_listadias( $checar );
+		          $eliminar          = $this->modelo_fotocalendario->eliminar_fotocalendario( $checar );
 	          }
-
 	          $guardar          = $this->modelo_fotocalendario->anadir_nombre_mes( $data );
 	          $guardar          = $this->modelo_fotocalendario->anadir_listadias( $data );
 	          $guardar          = $this->modelo_fotocalendario->anadir_fotocalendario( $data );

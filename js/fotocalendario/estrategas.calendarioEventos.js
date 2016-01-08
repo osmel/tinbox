@@ -28,7 +28,7 @@
 	
 //****Define los parametros con los valores por defecto para la funcion "calendarioEventos"***
 	$.fn.calendarioEventos.defaults = {
-	    eventsjson: 'js/events.json',
+	    eventsjson: 'http://localhost/tinbox/js/events.json',
 		eventsLimit: 4,
 		locales: {
 			locale: "en",
@@ -114,7 +114,7 @@
 				
 			   uid_fotocalendario = $("#uid_fotocalendario").val();
 	
-			 	url ="diseno_lista";
+			 	url ="http://localhost/tinbox/diseno_lista";
 
 					$.ajax({
 					    url: url,
@@ -211,7 +211,7 @@
 					correo_activo = JSON.stringify($.miespacionombre.correo_activo);
 					id_lista = $(this).val();
 
-				 	url ="leer_lista";
+				 	url ="http://localhost/tinbox/leer_lista";
 					$.ajax({
 					    url: url,
 					    type: 'POST',

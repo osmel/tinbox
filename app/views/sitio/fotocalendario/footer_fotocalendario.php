@@ -68,7 +68,9 @@
 
 
 
-    <?php  echo link_tag('css/normalize.css');  ?>
+    <?php // echo link_tag('css/normalize.css');  ?>
+    <link rel="stylesheet" href="<?php echo base_url();?>css/normalize.css">
+
     <?php // echo link_tag('css/screen.css');  ?>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
@@ -83,20 +85,22 @@
 
 
     <!-- Mi estilo -->
-    <?php  echo link_tag('css/fotocalendario/estilo.css'); ?>
-  
+    <?php  //echo link_tag('css/fotocalendario/estilo.css'); ?>
+    <link rel="stylesheet" href="<?php echo base_url();?>css/fotocalendario/estilo.css">
  
+    
 
       <!-- Estilo del calendario -->
-    <link rel="stylesheet" href="css/fotocalendario/calendarioEventos.css">
+    <link rel="stylesheet" href="<?php echo base_url();?>css/fotocalendario/calendarioEventos.css">
 
     <!-- Plugins dependiente para mostrar las fechas -->
-    <script src="js/fotocalendario/moment.js" type="text/javascript"></script>
+    <script src="<?php echo base_url(); ?>js/fotocalendario/moment.js" type="text/javascript"></script>
 
-    <script src="js/fotocalendario/estrategas.calendarioEventos.js" type="text/javascript"></script>
-    <script src="js/fotocalendario/calendario.js" type="text/javascript"></script>
-    <script src="js/fotocalendario/sistema.js" type="text/javascript"></script>
+    <script src="<?php echo base_url(); ?>js/fotocalendario/estrategas.calendarioEventos.js" type="text/javascript"></script>
+    <script src="<?php echo base_url(); ?>js/fotocalendario/calendario.js" type="text/javascript"></script>
+    
 
+   <script src="<?php echo base_url(); ?>js/fotocalendario/sistema.js" type="text/javascript"></script>
 
 </body>
 </html>

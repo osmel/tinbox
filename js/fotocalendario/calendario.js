@@ -7,57 +7,35 @@ $(document).ready(function() {
 				     nombre_mes:{},
 
 				      correo_activo:$('#correo_activo').val(),
-				cantDiseno_original:$('#cantDiseno_original').val(), 
-				     	 cantDiseno:$('#cantDiseno').val(), 
+				cantDiseno_original:$('#cantDiseno_original').val(),  //no
+				     	 cantDiseno:$('#cantDiseno').val(),  //no
 				     posicionDiseno:$('#posicionDiseno').val(),
-				     	movposicion:$('#movposicion').val(),
+				     	movposicion:$('#movposicion').val(),   //no
+
 				     	id_session:$('#id_session').val(),
 
-
 				     	array_eliminar : array_eliminar.split(",")
-
 
 				     	//str.split(",");
 				     	//http://stackoverflow.com/questions/2858121/convert-comma-separated-string-to-array
 
-
 				}; 
 
-
-
-				//console.log( $.miespacionombre.array_eliminar );
-				//console.log( $.miespacionombre.array_eliminar.toString() );
-
-
-				//if ($.miespacionombre.posicionDiseno<=) {	
-
-
-
-				//cuando llegue al ultima session
-				if (($.miespacionombre.cantDiseno==$.miespacionombre.posicionDiseno) && ($.miespacionombre.cantDiseno==$.miespacionombre.movposicion)) {
-					$('#cont_session3').val('Continuar');
-				} else {
-					$('#cont_session3').val('Siguiente Calendario');
-				}
-
-
-
-
-				
+	
 				$("body").on('show.bs.modal','#myModal',function(e){			
-					
-					$(".infoTitulo").text('Día: '+$("#almanaque").attr('diaseleccionado')+' (Sólo 18 caracteres)');	
+						
+						$(".infoTitulo").text('Día: '+$("#almanaque").attr('diaseleccionado')+' (Sólo 18 caracteres)');	
 
-					llave =	$("#almanaque").attr('anomostrado')
-						+'_'+$("#almanaque").attr('mesamostrarmenos1')+'_'+$("#almanaque").attr('diaseleccionado');
+						llave =	$("#almanaque").attr('anomostrado')
+							+'_'+$("#almanaque").attr('mesamostrarmenos1')+'_'+$("#almanaque").attr('diaseleccionado');
 
-					//console.log(llave);
-					//console.log($.miespacionombre.listaDias)	;
+						//console.log(llave);
+						//console.log($.miespacionombre.listaDias)	;
 
-						if ($.miespacionombre.listaDias[llave]) {
-										obj =	$.miespacionombre.listaDias[llave].valor;
-										$("textarea.contenido").val(obj);	
-						}
+							if ($.miespacionombre.listaDias[llave]) {
+											obj =	$.miespacionombre.listaDias[llave].valor;
+											$("textarea.contenido").val(obj);	
+							}
 				});
 
 
@@ -103,7 +81,7 @@ $(document).ready(function() {
 					mostrarDiaSemana:true,
 					mostrarNombreDiaCalendario:true,
 					semanaComienzaLunes:true, //false: comienza Domingo
-					eventsjson: 'json/events.json.php',
+					eventsjson: 'http://localhost/tinbox/json/events.json.php',
 					  showDescription: false, 
 					  dateFormat: 'dddd MM-D-YYYY',
 					  eventsLimit: 0,

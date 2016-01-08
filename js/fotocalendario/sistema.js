@@ -212,6 +212,10 @@ jQuery(document).ready(function($) {
 			}
 		});		
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////Boton continuar para validar el formulario///////////////////
+///////////////////////////////////////////////Modales con Lista y sin Lista///////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////			
 
 		function nombreMes() {
 		
@@ -231,8 +235,8 @@ jQuery(document).ready(function($) {
 	    //form_validar_fotocalendario
 
 		jQuery('body').on('submit','#form_validar_fotocalendario', function (e) {
-			//asignar el mes activo, para que entre en el arra
-			
+
+			//asignar el mes activo, para que entre en el array
 			nombreMes();		
 
 			jQuery('#foo').css('display','block');
@@ -262,14 +266,13 @@ jQuery(document).ready(function($) {
 	  							$catalogo = e.target.name;
 								spinner.stop();
 								jQuery('#foo').css('display','none');
-					      			 //console.log(Object.keys($.miespacionombre.listaDias).length===0);
-
-					      			 //console.log(Object.keys($.miespacionombre.nombre_mes).length===0);
 
 	      			 			if ( (Object.keys($.miespacionombre.listaDias).length===0) && (Object.keys($.miespacionombre.nombre_mes).length===0) ) {
-	      			 				jQuery("#modalsinLista").modal("show");
+	      			 				//mostrar la ventana sinLista
+	      			 				jQuery("#modalsinLista").modal("show"); //guardar sin lista
 	      			 			} else {
-	      			 				jQuery("#modalPregunta").modal("show",{valor:10});	
+	      			 				//mostrar la ventana conLista
+	      			 				jQuery("#modalPregunta").modal("show",{valor:10});	 //guardar con lista
 	      			 			}
 								
 					}
@@ -278,24 +281,174 @@ jQuery(document).ready(function($) {
 			return false;
 		});	
 		
-
+		//Cuando cancela en la modal que "Tiene lista"
 		jQuery('#modalPregunta').on('hide.bs.modal', function(e) {
 			jQuery('#foo1').css('display','none');
 			jQuery('#messages1').css('display','none');
 		    jQuery(this).removeData('bs.modal');
 		});	
 
+
+		
+		//Cuando cancela en la modal que "NO Tiene lista"
 		jQuery('#modalsinLista').on('hide.bs.modal', function(e) {
 			jQuery('#foo1').css('display','none');
 			jQuery('#messages1').css('display','none');
 		    jQuery(this).removeData('bs.modal');
 		});		
 
-		var guardar = 'guardar';
 
+
+		/*
+		por defecto dice que cuando comience el formulario se va a guardar la lista
+		pero hay 3 estado 
+			Guardar
+			   1-guardar  :
+			   2-noguardar: "No me interesa, deseo continuar"
+			SinGuardar
+			   3-noguardar: por defecto
+
+		*/
+		var guardar = 'guardar';
 	    jQuery('body').on('click','#deleteUserSubmit', function (e) {
 	    	guardar= e.target.name;
 	    });	
+
+
+
+
+
+		jQuery('body').on('submit','#form_guardar_lista', function (e) {
+
+				//evitar q se ejecute el submit
+		 	event.preventDefault();
+
+			jQuery('#foo').css('display','block');
+
+			var spinner = new Spinner(opts).spin(target);
+
+			//asignar el mes activo, para que entre en el array
+			nombreMes();		
+
+			//para tomar la lista de checkBox
+			listCheck = [];
+			jQuery("input[name='coleccion_id_logo[]']:checked").each(function() {
+			     listCheck.push(jQuery(this).val());
+			});		
+
+					
+				//este es el formulario de la session 3
+				var datoFormulario = new FormData(document.getElementById("form_validar_fotocalendario"));
+
+				//el arreglo de día y meses
+				datoFormulario.append('listadias', JSON.stringify($.miespacionombre.listaDias));
+				datoFormulario.append('nombre_mes', JSON.stringify($.miespacionombre.nombre_mes));
+
+				//los datos "del formulario modal"
+				datoFormulario.append('nombre_lista', jQuery('#nombre_lista').val());
+				datoFormulario.append('correo_lista', jQuery('#correo_lista').val());
+
+				//el valor de la session q esta en uso
+				
+				/*	
+				if 	($.miespacionombre.id_session=='') {
+					$.miespacionombre.id_session = randomString(20); 
+				}
+				datoFormulario.append('id_session', $.miespacionombre.id_session);
+				*/
+
+				datoFormulario.append('id_session', jQuery('#id_session').val());
+
+	  			//datoFormulario.append('cantDiseno_original', $.miespacionombre.cantDiseno_original);
+				//datoFormulario.append('cantDiseno', $.miespacionombre.cantDiseno);
+				//datoFormulario.append('movposicion',$.miespacionombre.movposicion);
+
+				datoFormulario.append('id_tamano',jQuery('#movposicion').val());
+			
+
+				//estatus para guardar o no guardar lista
+				datoFormulario.append('guardar', guardar);
+				
+
+				datoFormulario.append('coleccion_id_logo', listCheck);
+
+				//este es el email activo	
+				//email_lista = $.miespacionombre.correo_activo;
+				email_lista = jQuery('#correo_activo').val();
+
+				if (guardar=="guardar") {
+						url='http://localhost/tinbox/guardar_lista';
+						//email_lista = jQuery('#correo_lista').val();
+				} else {
+						url='http://localhost/tinbox/noguardar_lista';
+				} 
+
+				 //alert(url);
+				$.ajax({
+				    url: url,
+				    type: 'POST',
+				    data:  datoFormulario,
+				    		
+				    async: false,
+				    cache: false,
+				    contentType: false,
+				    processData: false,
+
+					success: function(datos){
+						if(datos != true){
+							
+							spinner.stop();
+							jQuery('#foo1').css('display','none');
+							jQuery('#messages1').css('display','block');
+							jQuery('#messages1').addClass('alert-danger');
+							jQuery('#messages1').html(datos);
+							jQuery('html,body').animate({
+								'scrollTop': jQuery('#messages1').offset().top
+							}, 1000);
+						
+							
+						}else{
+						
+		  							$catalogo = e.target.name;
+									spinner.stop();
+									jQuery('#foo1').css('display','none');
+
+									//document.location.href = 'http://localhost/tinbox/fotoimagen/'+jQuery.base64.encode(jQuery('#id_session').val());
+									
+									var $catalogo = 'http://localhost/tinbox/fotoimagen/'+jQuery.base64.encode(jQuery('#id_session').val());
+												
+												hrefPost('POST', $catalogo, {
+													      'id_tamano':jQuery('#movposicion').val(),
+
+											    }, ''); 
+
+						}
+					} 
+
+
+
+				  });
+				 
+				  return false;
+				});
+						
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////Fin del Boton continuar para validar el formulario///////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////			
+
+
+	
+
+
 	    	    	
 
 		//editar un slider
@@ -320,8 +473,7 @@ jQuery(document).ready(function($) {
 
 
 
-		jQuery('body').on('submit','#form_guardar_lista', function (e) {
-
+		jQuery('body').on('submit','#form_guardar_lista11', function (e) {
 
 				//evitar q se ejecute el submit
 		 	event.preventDefault();
@@ -483,7 +635,7 @@ jQuery(document).ready(function($) {
 				  });
 				 
 				  return false;
-				})
+				});
 						
 
 		hrefPost = function(verb, url, data, target) {

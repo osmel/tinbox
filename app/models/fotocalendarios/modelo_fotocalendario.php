@@ -23,19 +23,22 @@
       $this->fotocalendario_imagenes    = $this->db->dbprefix('fotocalendario_imagenes');
       $this->fotocalendario_imagenes_original    = $this->db->dbprefix('fotocalendario_imagenes_original');
       $this->fotocalendario_imagenes_recorte    = $this->db->dbprefix('fotocalendario_imagenes_recorte');
+
+      $this->logueo_identificador    = $this->db->dbprefix('logueo_identificador');
+
+
     }
-///////////////////checar si existe el dato q voy agregar//////////////////////////
-    public function fotocalendario_edicion($data){
-            $this->db->select("id, uid_fotocalendario, id_session,cantDiseno, movposicion, id_diseno, id_tamano");         
-            $this->db->select("titulo, nombre, apellidos");         
-            $this->db->select("id_mes, id_dia, id_festividad, id_ano, id_lista, logo, coleccion_id_logo, fecha");         
-            //, id_mes, id_dia, id_festividad, id_ano, id_lista, logo, coleccion_id_logo, fecha
-            $this->db->from($this->fotocalendario_temporal);
+
+
+
+
+    //correo logueo
+ public function correo_logueo($data){
+            $this->db->select("id, id_session, correo, id_diseno, id_tamano, fecha_mac");         
+            $this->db->from($this->logueo_identificador);
             $where = '(
                         (
-                          ( id_session =  "'.$data['id_session'].'" ) AND
-                          ( movposicion =  '.$data['movposicion'].' ) 
-                          
+                          ( id_session =  "'.$data['id_session'].'" )                           
                          )
               )';   
   
@@ -43,35 +46,24 @@
             
             $info = $this->db->get();
             if ($info->num_rows() > 0) {
-                return $info->row();
+                return $info->result();
             }    
             else
                 return false;
             $info->free_result();
     } 
-///////////////////checar si existe el dato q voy agregar//////////////////////////
-    public function check_existente_fotocalendario($data){
-            $this->db->select("uid_fotocalendario", FALSE);         
-            $this->db->from($this->fotocalendario_temporal);
-            $where = '(
-                        (
-                          ( id_session =  "'.$data['id_session'].'" ) AND
-                          ( movposicion =  '.$data['movposicion'].' ) 
-                          
-                         )
-              )';   
-  
-            $this->db->where($where);
-            
-            $info = $this->db->get();
-            if ($info->num_rows() > 0) {
-                $fila = $info->row(); 
-                return $fila->uid_fotocalendario;
-            }    
-            else
-                return false;
-            $info->free_result();
-    } 
+
+
+
+
+
+
+
+
+
+
+
+ 
     /////////////////////////////////////////////    
     /////////////////////////////////////////////
     public function listado_listas($data){
@@ -85,6 +77,7 @@
                     return FALSE;
                 $result->free_result();
      }  
+     
   public function listadias_cambiar($data){
             $this->db->select("l.id, l.uid_lista, l.correo, l.nombre");         
             $this->db->select("d.ano, d.mes, d.dia, d.valor");         
@@ -144,11 +137,83 @@
                 else 
                     return FALSE;
                 $result->free_result();
-     }       
+     }   
+
+
+
+
+///////////////////Leer los datos sobre el calendario activo//////////////////////////
+    public function fotocalendario_edicion($data){
+            $this->db->select("id, id_session,cantDiseno, movposicion, id_diseno, id_tamano");         
+            $this->db->select("titulo, nombre, apellidos");         
+            $this->db->select("id_mes, id_dia, id_festividad, id_ano, id_lista, logo, coleccion_id_logo, fecha");         
+            //, id_mes, id_dia, id_festividad, id_ano, id_lista, logo, coleccion_id_logo, fecha
+            $this->db->from($this->fotocalendario_temporal);
+            $where = '(
+                        (
+                          ( id_session =  "'.$data['id_session'].'" ) AND
+                          ( id_tamano =  '.$data['id_tamano'].' ) 
+                          
+                         )
+              )';   
+  
+            $this->db->where($where);
+            
+            $info = $this->db->get();
+            if ($info->num_rows() > 0) {
+                return $info->row();
+            }    
+            else
+                return false;
+            $info->free_result();
+    }
+
+///////////////////checar si existe el dato q voy agregar//////////////////////////
+    public function check_existente_fotocalendario($data){
+            $this->db->select("id_session, id_tamano", FALSE);         
+            $this->db->from($this->fotocalendario_temporal);
+            $where = '(
+                        (
+                          ( id_session =  "'.$data['id_session'].'" ) AND
+                          ( id_tamano =  '.$data['id_tamano'].' ) 
+                          
+                         )
+              )';   
+  
+            $this->db->where($where);
+            
+            $info = $this->db->get();
+            if ($info->num_rows() > 0) {
+                $fila = $info->row(); 
+                return $fila->id_session;
+            }    
+            else
+                return false;
+            $info->free_result();
+    } 
+
+
+////////////////////////////eliminar/////////////////////////////
+    public function eliminar_fotocalendario( $data ){
+        $this->db->delete( $this->fotocalendario_temporal, array( 'id_session' => $data['id_session'],  'id_tamano' => $data['id_tamano'] ) );
+        if ( $this->db->affected_rows() > 0 ) return TRUE;
+        else return FALSE;
+    }
+    public function eliminar_listadias( $data ){
+        $this->db->delete( $this->fechas_especiales, array( 'id_session' => $data['id_session'],  'id_tamano' => $data['id_tamano'] ) );
+        if ( $this->db->affected_rows() > 0 ) return TRUE;
+        else return FALSE;
+    }
+    public function eliminar_nombre_mes( $data ){
+        $this->db->delete( $this->nombre_meses, array( 'id_session' => $data['id_session'],  'id_tamano' => $data['id_tamano'] ) );
+        if ( $this->db->affected_rows() > 0 ) return TRUE;
+        else return FALSE;
+    }
+
+
      //fin de catalogos
     //Fotocalendario
      public function anadir_fotocalendario($data){
-          
           
          //id, uid_fotocalendario,
          //** id_diseno, id_tamano,
@@ -156,18 +221,23 @@
          //"id_ano", id_lista, 
          //logo, coleccion_id_logo 
          //, fecha
-          $this->db->set( 'uid_fotocalendario', $data['uid_fotocalendario'] );  //
-          $this->db->set( 'id_diseno', $data['id_diseno'] );  //
-          $this->db->set( 'id_tamano', $data['id_tamano'] );  //
+          
+          //$this->db->set( 'id_diseno', $data['id_diseno'] );  //
+          //$this->db->set( 'cantDiseno', $data['cantDiseno'] );  //
+          //$this->db->set( 'movposicion', $data['movposicion'] );  //
+                
+
           $this->db->set( 'id_session', $data['id_session'] );  //
-          $this->db->set( 'cantDiseno', $data['cantDiseno'] );  //
-          $this->db->set( 'movposicion', $data['movposicion'] );  //
+          $this->db->set( 'id_tamano', $data['id_tamano'] );  //
+          
           $this->db->set( 'titulo', $data['titulo'] );  
           $this->db->set( 'nombre', $data['nombre'] );  
           $this->db->set( 'apellidos', $data['apellidos'] );  
+
           $this->db->set( 'id_dia', $data['id_dia'] );  
           $this->db->set( 'id_mes', $data['id_mes'] );  
           $this->db->set( 'id_festividad', $data['id_festividad'] );  
+
           if (isset($data['id_lista'])) {
               $this->db->set( 'id_lista', $data['id_lista'] );  
           }    
@@ -183,12 +253,15 @@
                     return FALSE;
                 }
                 $result->free_result();
-     }            
-      public function anadir_nombre_mes($data){
+     }
+
+     public function anadir_nombre_mes($data){
          
           foreach ($data['nombre_mes'] as $llave => $valor) {
             if (isset($valor['ano'])) {
-                 $this->db->set( 'uid_fotocalendario', $data['uid_fotocalendario'] );  
+                 $this->db->set( 'id_session', $data['id_session'] );  
+                 $this->db->set( 'id_tamano', $data['id_tamano'] );  //
+
                  $this->db->set( 'ano', $valor['ano'] );  
                  $this->db->set( 'mes', $valor['mes'] );  //+1
                  $this->db->set( 'valor', $valor['valor'] );  
@@ -202,10 +275,13 @@
                     return FALSE;
                 }
                 $result->free_result();
-      } 
+     } 
+
       public function anadir_listadias($data){
           foreach ($data['listadias'] as $llave => $valor) {
-               $this->db->set( 'uid_fotocalendario', $data['uid_fotocalendario'] );  
+               $this->db->set( 'id_session', $data['id_session'] );  
+               $this->db->set( 'id_tamano', $data['id_tamano'] );  //
+
                $this->db->set( 'ano', $valor['ano'] );  
                $this->db->set( 'mes', $valor['mes'] );   //+1
                $this->db->set( 'dia', $valor['dia'] );  
@@ -259,22 +335,7 @@
                     return FALSE;
                 $result->free_result();
     }                 
-////////////////////////////eliminar/////////////////////////////
-    public function eliminar_fotocalendario( $data ){
-        $this->db->delete( $this->fotocalendario_temporal, array( 'uid_fotocalendario' => $data ) );
-        if ( $this->db->affected_rows() > 0 ) return TRUE;
-        else return FALSE;
-    }
-    public function eliminar_listadias( $data ){
-        $this->db->delete( $this->fechas_especiales, array( 'uid_fotocalendario' => $data ) );
-        if ( $this->db->affected_rows() > 0 ) return TRUE;
-        else return FALSE;
-    }
-    public function eliminar_nombre_mes( $data ){
-        $this->db->delete( $this->nombre_meses, array( 'uid_fotocalendario' => $data ) );
-        if ( $this->db->affected_rows() > 0 ) return TRUE;
-        else return FALSE;
-    }
+
 ///////////////////////fin de eliminar ///////////////////////////      
      //listas
      public function anadir_lista($data){

@@ -14,6 +14,8 @@
      
 
 <?php 
+
+
   if (!isset($retorno)) {
         $retorno ="tinbox/fotocalendario";
     }
@@ -27,7 +29,6 @@
  //http://www.sanwebe.com/2012/06/ajax-file-upload-with-php-and-jquery    
 
  $attr = array('class' => 'form-horizontal', 'id'=>'form_validar_fotocalendario','name'=>$retorno,'method'=>'POST','autocomplete'=>'off','role'=>'form');
-
  echo form_open_multipart('validar_nuevo_fotocalendario', $attr);
 ?>    
 
@@ -403,7 +404,7 @@
                 <div class="col-sm-4 col-md-4"></div>
 
                 <div class="col-sm-4 col-md-4">
-                  <input type="submit" id="cont_session3" class="btn btn-success btn-block" value="Siguiente Calendario"/> 
+                  <input type="submit" id="cont_session3" class="btn btn-success btn-block" value="Continuar"/> 
 
                   <!--
                     <a href="guardar_lista" class="btn btn-success btn-block" data-toggle="modal" data-target="#modalPregunta">
@@ -431,7 +432,6 @@
 
 
 <?php $this->load->view( 'sitio/fotocalendario/footer_fotocalendario' ); ?>
-
 
 
 <!-- Modal pregunta
