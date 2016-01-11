@@ -339,9 +339,11 @@
 
                       <select name="id_lista" id="id_lista" class="form-control">
                           <option value="-1">Ninguno</option>
-                          <?php foreach ( $listas as $lista ){ ?>
+                          <?php  if ($listas) {
+                                foreach ( $listas as $lista ){ 
+                          ?>
                               <option value="<?php echo $lista->id; ?>"><?php echo $lista->nombre; ?></option>
-                          <?php } ?>
+                          <?php } } ?>
                       </select>
 
                       

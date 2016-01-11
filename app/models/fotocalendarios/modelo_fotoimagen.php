@@ -23,6 +23,8 @@
       $this->fotocalendario_imagenes    = $this->db->dbprefix('fotocalendario_imagenes');
       $this->fotocalendario_imagenes_original    = $this->db->dbprefix('fotocalendario_imagenes_original');
       $this->fotocalendario_imagenes_recorte    = $this->db->dbprefix('fotocalendario_imagenes_recorte');
+      
+      $this->logueo_identificador    = $this->db->dbprefix('logueo_identificador');
     }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -263,6 +265,52 @@
             //$info->free_result();
             
     } 
+
+
+
+    //correo logueo
+ public function correo_logueo($data){
+            $this->db->select("id, id_session, correo, id_diseno, id_tamano, fecha_mac");         
+            $this->db->from($this->logueo_identificador);
+            $where = '(
+                        (
+                          ( id_session =  "'.$data['session'].'" )                           
+                         )
+              )';   
+  
+            $this->db->where($where);
+            
+            $info = $this->db->get();
+            if ($info->num_rows() > 0) {
+                return $info->result();
+            }    
+            else
+                return false;
+            $info->free_result();
+    } 
+
+  public function revisar_imagenes( $data ){
+
+            $this->db->select("id", FALSE);         
+            $this->db->from($this->fotocalendario_imagenes);
+    
+            $where = '(
+                        (
+                          ( id_session =  "'.$data['id_session'].'" ) AND
+                          ( id_diseno =  '.$data['id_diseno'].' ) AND
+                          ( ano =  "'.$data['ano'].'" ) 
+                         )
+              )';   
+  
+            $this->db->where($where);
+            
+            $info = $this->db->get();
+            return $info->num_rows();
+
+    }     
+      
+
+
 
 
 } 

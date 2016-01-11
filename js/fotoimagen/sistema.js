@@ -134,31 +134,6 @@ function buscarImagen() {
 }
 
 
-/*
-$('body').on('click', '#guardar', function () {
-   
-
-		    var existe = ($('#image').attr('nombre'));	
-
-			if ( existe != undefined) {
-			   //console.log($('#image').attr('nombre'));	
-			   $('#guardar').trigger('click');
-			} 
-			
-
-
-		   //console.log($(this).attr('nmes'));
-		   mes = "0"; //pasar a enero del proximo diseno $(this).attr('nmes')
-		   $('#mes').val(mes);
-		   $('#cont_img').remove();
-
-		   
-			//jQuery("#"+dependencia).trigger('change');
-		   buscarImagen();
-
-
-});
-*/
 
 
 

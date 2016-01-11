@@ -177,101 +177,6 @@ $(function () {
       };
 
 
-function guardar2() {
-  var result;
-
-
-  var session = $('#session').val();
-  var id_diseno = $('#id_diseno').val();
-  var ano = $('#ano').val();
-  var mes = $('#mes').val();
-
-  
-  var tipo_archivo= ($('#image').attr('tipo_archivo'));
-  var nombre = ($('#image').attr('nombre'));
-  
-  var tipo = ($('#image').attr('tipo'));
-  var ext = ($('#image').attr('ext'));
-  var tamano = ($('#image').attr('tamano'));
-  var ancho = ($('#image').attr('ancho'));
-  var alto = ($('#image').attr('alto'));
-
-  
-     if ($image.data('cropper')) {
-
-          //alert('asdas');
-            
-
-            var datoimagen = $image.cropper('getImageData');
-            var datocanvas = $image.cropper('getCanvasData');
-            
-            var result =  $image.cropper('getCroppedCanvas'); //
-            var datos =  $image.cropper('getData');
-
-            var datocropbox =  $image.cropper('getCropBoxData');
-
-            var croppedImageDataURL = result.toDataURL(tipo_archivo); 
-            var formData = new FormData();
-
-            formData.append('datoimagen', JSON.stringify(datoimagen));
-            formData.append('datocanvas', JSON.stringify(datocanvas));
-
-            formData.append('croppedImage', croppedImageDataURL);//
-            
-            formData.append('datos', JSON.stringify(datos));
-            formData.append('datocropbox', JSON.stringify(datocropbox));
-
-            formData.append('session', session);
-
-            formData.append('tipo_archivo', tipo_archivo);
-            formData.append('nombre', nombre);
-            formData.append('tipo', tipo);
-            formData.append('ext', ext);
-            formData.append('tamano', tamano);
-            formData.append('ancho', ancho);
-            formData.append('alto', alto);
-
-            formData.append('ano', ano);
-            formData.append('mes', mes);
-            //formData.append('dia', dia);
-
-            formData.append('id_diseno', id_diseno);
-
-            //console.log(formData);  
-
-            $.ajax('http://localhost/tinbox/guardar_imagen', {
-              method: "POST",
-              data: formData,
-              processData: false,
-              contentType: false,
-              success: function(data) {  
-               
-                var id_session = $('#session').val();
-                $('#cont_img').remove();
-
-                var catalogo= 'http://localhost/tinbox/fotoimagen/'+jQuery.base64.encode(id_session);
-
-                hrefPost('POST', catalogo, {
-                      id_diseno : parseInt($('#id_diseno').val())+1,
-                      ano : ano,
-                      mes : mes,
-                      imagen:'si',
-
-                }, ''); 
-
-
-              },
-              error: function () {
-                console.log('Upload error');
-              }
-            }); 
-         
-     }   
-
-}
-
-
-
 function guardar3() {
   var result;
    
@@ -347,42 +252,23 @@ function guardar3() {
 
                     var mes = $('#mesclick').val();
 
-                    $.ajax({
-                          url: 'http://localhost/tinbox/num_diseno',
-                          method: "POST",
-                          dataType: 'json',
-                          data: {
-                              mes:mes,
-                              session:session,
+            
+                    $('#id_diseno').val(id_diseno); //dat_diseno //val(dat_diseno); //dat_diseno
 
-                          },
-                          success: function(dat_diseno) { 
-                            $('#id_diseno').val(dat_diseno); //dat_diseno
-
-                            //alert(dat_diseno);
-
-                            //cargar nuevamente fotoimagen/index
-                            var catalogo = 'http://localhost/tinbox/fotoimagen/'+jQuery.base64.encode(session);
+                    //cargar nuevamente fotoimagen/index
+                    var catalogo = 'http://localhost/tinbox/fotoimagen/'+$.base64.encode(session);
 
 
 
-                            hrefPost('POST', catalogo, {
-                                  id_diseno : parseInt($('#id_diseno').val()),
-                                  ano : ano,
-                                  mes : mes,
-                                  imagen:'si',
+                    hrefPost('POST', catalogo, {
+                          id_tamano : $('#id_diseno').val(),
+                          ano : ano,
+                          mes : mes,
+                          imagen:'si',
 
-                            }, '');                             
+                    }, '');                             
 
-
-                          },
-                      error: function () {
-                          console.log('Upload error');
-                        }
-                    }); 
-
-                
-
+                           
 
 
               },
@@ -392,6 +278,171 @@ function guardar3() {
             }); 
      } 
 
+
+}
+
+
+
+
+  var opts = {
+    lines: 13, 
+    length: 20, 
+    width: 10, 
+    radius: 30, 
+    corners: 1, 
+    rotate: 0, 
+    direction: 1, 
+    color: '#E8192C',
+    speed: 1, 
+    trail: 60,
+    shadow: false,
+    hwaccel: false,
+    className: 'spinner',
+    zIndex: 2e9, 
+    top: '50%', // Top position relative to parent
+    left: '50%' // Left position relative to parent   
+  };
+
+  $(".navigacion").change(function() {
+      document.location.href = $(this).val();
+  });
+
+
+
+  var target = document.getElementById('foo');
+
+
+function guardar2() {
+  var result;
+
+
+  var session = $('#session').val();
+  var id_diseno = $('#id_diseno').val();
+  var ano = $('#ano').val();
+  var mes = $('#mes').val();
+
+  
+  var tipo_archivo= ($('#image').attr('tipo_archivo'));
+  var nombre = ($('#image').attr('nombre'));
+  
+  var tipo = ($('#image').attr('tipo'));
+  var ext = ($('#image').attr('ext'));
+  var tamano = ($('#image').attr('tamano'));
+  var ancho = ($('#image').attr('ancho'));
+  var alto = ($('#image').attr('alto'));
+
+  
+     if ($image.data('cropper')) {
+
+          //alert('asdas');
+            
+
+            var datoimagen = $image.cropper('getImageData');
+            var datocanvas = $image.cropper('getCanvasData');
+            
+            var result =  $image.cropper('getCroppedCanvas'); //
+            var datos =  $image.cropper('getData');
+
+            var datocropbox =  $image.cropper('getCropBoxData');
+
+            var croppedImageDataURL = result.toDataURL(tipo_archivo); 
+            var formData = new FormData();
+
+            formData.append('datoimagen', JSON.stringify(datoimagen));
+            formData.append('datocanvas', JSON.stringify(datocanvas));
+
+            formData.append('croppedImage', croppedImageDataURL);//
+            
+            formData.append('datos', JSON.stringify(datos));
+            formData.append('datocropbox', JSON.stringify(datocropbox));
+
+            formData.append('session', session);
+
+            formData.append('tipo_archivo', tipo_archivo);
+            formData.append('nombre', nombre);
+            formData.append('tipo', tipo);
+            formData.append('ext', ext);
+            formData.append('tamano', tamano);
+            formData.append('ancho', ancho);
+            formData.append('alto', alto);
+
+            formData.append('ano', ano);
+            formData.append('mes', mes);
+            //formData.append('dia', dia);
+
+            formData.append('id_diseno', id_diseno);
+
+            //console.log(formData);  
+
+            $.ajax('http://localhost/tinbox/guardar_imagen', {
+              method: "POST",
+              data: formData,
+              processData: false,
+              contentType: false,
+              success: function(data) {  
+
+                   $('#foo').css('display','block');
+                    var spinner = new Spinner(opts).spin(target);
+
+                    $.ajax({
+                          url: 'http://localhost/tinbox/revisar_imagenes',
+                          method: "POST",
+                          dataType: 'json',
+                          data: {
+                              id_diseno:id_diseno,
+                              id_session:session,
+                              ano:ano
+
+                          },
+                          success: function(cant_imagen) { 
+                            if (cant_imagen <=1) {
+
+                              spinner.stop();
+                              $('#foo').css('display','none');
+                              $('#messages').css('display','block');
+                              $('#messages').addClass('alert-danger');
+                              $('#messages').html(cant_imagen);
+                              $('html,body').animate({
+                                'scrollTop': $('#messages').offset().top
+                              }, 1000);
+                            
+
+                            }else{
+
+
+                                var catalogo= 'http://localhost/tinbox/fotocalendario/'+$.base64.encode(session);
+                                spinner.stop();
+                                $('#foo').css('display','none');
+
+                                hrefPost('POST', catalogo, {
+                                      id_tamano : id_diseno,
+
+                                }, ''); 
+
+
+
+                            }
+
+
+
+
+
+
+
+                          },
+                      error: function () {
+                          console.log('Upload error');
+                        }
+                    }); 
+
+
+              },
+              error: function () {
+                console.log('Upload error');
+              }
+            }); 
+         
+     }   
 
 }
 
@@ -414,6 +465,72 @@ $('body').on('click', '#guardar', function (e) {
     //si fue una presion real de boton 
     if (!(e.isTrigger)) { 
 
+        if ( existe != undefined) { //si hay imagen para guardar donde estoy posicionado
+            guardar2();
+        }  else { //sino hay imagenes para guardar donde estoy posicionado
+
+                    $('#foo').css('display','block');
+                    var spinner = new Spinner(opts).spin(target);
+
+                    $.ajax({
+                          url: 'http://localhost/tinbox/revisar_imagenes',
+                          method: "POST",
+                          dataType: 'json',
+                          data: {
+                              id_diseno:id_diseno,
+                              id_session:session,
+                              ano:ano
+
+                          },
+                          success: function(cant_imagen) { 
+                            if (cant_imagen <=1) {
+
+                              spinner.stop();
+                              $('#foo').css('display','none');
+                              $('#messages').css('display','block');
+                              $('#messages').addClass('alert-danger');
+                              $('#messages').html(cant_imagen);
+                              $('html,body').animate({
+                                'scrollTop': $('#messages').offset().top
+                              }, 1000);
+                            
+
+                            }else{
+
+                                var catalogo= 'http://localhost/tinbox/fotocalendario/'+$.base64.encode(session);
+                                spinner.stop();
+                                $('#foo').css('display','none');
+
+                                hrefPost('POST', catalogo, {
+                                      id_tamano : id_diseno,
+
+                                }, ''); 
+
+
+
+                            }
+
+
+
+
+
+
+
+                          },
+                      error: function () {
+                          console.log('Upload error');
+                        }
+                    }); 
+
+
+        }  
+
+
+
+
+
+     // alert('no');
+  /*
         if ( existe != undefined) { //si hay imagen para guardar
             guardar2();
         } else {  //no hay imagen para guardar
@@ -421,7 +538,7 @@ $('body').on('click', '#guardar', function (e) {
                 
                 $('#cont_img').remove();
 
-                var catalogo= 'http://localhost/tinbox/fotoimagen/'+jQuery.base64.encode(session);
+                var catalogo= 'http://localhost/tinbox/fotoimagen/'+$.base64.encode(session);
 
                 hrefPost('POST', catalogo, {
                       id_diseno : parseInt($('#id_diseno').val()), //+1,
@@ -433,6 +550,8 @@ $('body').on('click', '#guardar', function (e) {
 
 
         }
+*/
+
 
     } else {  //si fue invocado a la fuerza el trigger "para cambiar de mes"
       
@@ -440,75 +559,24 @@ $('body').on('click', '#guardar', function (e) {
                   guardar3();
 
         } else { //no hay imagen para guardar
-           
-
-            /* no se pone restriccion para pasar a otro MES */
-
-            /*
-              var id_diseno = $('#id_diseno').val("1");
-                    var mes = $('#mesclick').val();
-
-                $('#cont_img').remove();
-
-                var catalogo= 'http://localhost/tinbox/fotoimagen/'+jQuery.base64.encode(session);
-
-                hrefPost('POST', catalogo, {
-                      id_diseno : parseInt($('#id_diseno').val()), 
-                      ano : ano,
-                      mes : mes,
-                      imagen:'si', //aunque no hay imagen pongo si, para que no valide
-
-                }, '');           
-           
-
-           */
-
-
-
-
-                      
+                     
                     $('#cont_img').remove();
 
                     var mes = $('#mesclick').val();
+            
+                    $('#id_diseno').val(id_diseno); //dat_diseno //val(dat_diseno); //dat_diseno
 
-                    $.ajax({
-                          url: 'http://localhost/tinbox/num_diseno',
-                          method: "POST",
-                          dataType: 'json',
-                          data: {
-                              mes:mes,
-                              session:session,
-
-                          },
-                          success: function(dat_diseno) { 
-                            $('#id_diseno').val(dat_diseno); //dat_diseno
-
-                            //alert(dat_diseno);
-
-                            //cargar nuevamente fotoimagen/index
-                            var catalogo = 'http://localhost/tinbox/fotoimagen/'+jQuery.base64.encode(session);
+                    //cargar nuevamente fotoimagen/index
+                    var catalogo = 'http://localhost/tinbox/fotoimagen/'+$.base64.encode(session);
 
 
+                    hrefPost('POST', catalogo, {
+                          id_tamano : $('#id_diseno').val(),
+                          ano : ano,
+                          mes : mes,
+                          imagen:'si',
 
-                            hrefPost('POST', catalogo, {
-                                  id_diseno : parseInt($('#id_diseno').val()),
-                                  ano : ano,
-                                  mes : mes,
-                                  imagen:'si',
-
-                            }, '');                             
-
-
-                          },
-                      error: function () {
-                          console.log('Upload error');
-                        }
-                    }); 
-
-
-
-
-
+                    }, '');                             
 
         }
 
@@ -790,7 +858,7 @@ if (!HTMLCanvasElement.prototype.toBlob) {
 
             if (!$download.hasClass('disabled')) {
               //alert(result.toDataURL());
-              //http://www.jqueryscript.net/demo/jQuery-In-Place-Image-Cropping-Plugin-cropbox/
+              //http://www.$script.net/demo/$-In-Place-Image-Cropping-Plugin-cropbox/
               //console.log($image.getImageData());
               //var canvasData;
               //canvasData = $image.cropper('getCanvasData');

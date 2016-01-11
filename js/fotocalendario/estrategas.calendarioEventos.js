@@ -115,6 +115,7 @@
 			   //uid_fotocalendario = $("#uid_fotocalendario").val();
 
 			    id_session = $("#id_session").val();
+			    id_tamano = $("#movposicion").val();
 	
 			 	url ="http://localhost/tinbox/diseno_lista";
 
@@ -123,21 +124,33 @@
 					    type: 'POST',
 					    dataType: "json",
 					    data:  {					    	
-					    	id_session:id_session
+					    	id_session:id_session,
+					    	id_tamano : id_tamano,
 					    },
 					    		
 						success: function(data){
+
+							//console.log(data);
+
+							//alert(data);
+
 							if(data != true){
 							
 								 $.miespacionombre.nombre_mes ={};
 		                       	 $.miespacionombre.listaDias  ={};
 
-
 		                        $.each(data, function (i, valor) {
-		                        	   //console.log(i);
+		                      	  	   
 		                        	  
-
+		                        		//alert(valor);
 		                        	   $.each(valor, function (j, valo) {	
+
+
+
+
+
+		                        	   	//console.log(valor);
+		                        	   	//console.log("osmel");
 
 		                        	   	  if (i=="list_dia") {
 												//console.log(valo.mes);

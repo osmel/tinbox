@@ -60,6 +60,11 @@ $route['noguardar_lista']							= 'fotocalendario/noguardar_lista';
 $route['leer_lista']							= 'fotocalendario/leer_lista';
 $route['diseno_lista']							= 'fotocalendario/diseno_lista';
 
+$route['calenda_activos']							= 'fotocalendario/calenda_activos';
+
+
+
+
 ///////////////////////////////////////imagen//////////////////////////////////////////
 $route['fotoimagen/(:any)']							= 'fotoimagen/index/$1';
 $route['imagen_encontrada']							= 'fotoimagen/imagen_encontrada';
@@ -69,7 +74,7 @@ $route['buscarimagen']								= 'fotoimagen/buscarimagen';
 
 $route['num_diseno']								= 'fotoimagen/num_diseno';
 
-
+$route['revisar_imagenes']								= 'fotoimagen/revisar_imagenes';
 
 
 

@@ -12,32 +12,43 @@ class Fotoimagen extends CI_Controller {
 
 		$data['session'] = base64_decode($session);
 
-		$data['datos'] = $this->modelo_fotoimagen->listado_disenos($data);
-
-		$data['ano'] = date("Y");
-		$data['mes'] = date("m")-1;
-
- 		$num_diseno          = $this->modelo_fotoimagen->num_diseno( $data );
-
-      	//$data['id_diseno'] = '1';
-      	$data['id_diseno'] = $num_diseno;
-
-		if (isset($_POST['id_diseno'])) {
-				$data['id_diseno']   = $_POST['id_diseno'];
-				$data['ano']  		 = $_POST['ano'];
-				$data['mes']  		 = $_POST['mes'];
-
-				/*
-				$data['id_diseno']   = 1;
-				$data['mes']  		 = 11;	*/			
-		} 
+		//$data['datos'] = $this->modelo_fotoimagen->listado_disenos($data);
+		$data['datos'] = $this->modelo_fotoimagen->correo_logueo($data);
 
 
 
+      	
+
+		if (isset($_POST['id_tamano'])) {
+				$data['id_diseno']   = $_POST['id_tamano']; // el diseño que se va activar
+				$data['ano']  		 = $_POST['ano'];  //en que año
+				$data['mes']  		 = $_POST['mes'];  //y en q mes
+		} else { //para recoger el 1er diseño si refresca
+	 		//$num_diseno          = $this->modelo_fotoimagen->num_diseno( $data );
+	      	
+
+			$data['datos'] = $this->modelo_fotoimagen->correo_logueo($data);
+
+		
+				 if ($data['datos']){
+				 	   //$data['cantDiseno_original'] = count($data['datos']);
+				 	   //$data['cantDiseno']   = count($data['datos']);
+			      	  
+			      	  $data['id_diseno']    = $data['datos'][0]->id_tamano; //1; //leer el 1er tamaño
+    	        	  $data['ano'] = date("Y");
+			  		  $data['mes'] = date("m")-1;
+
+			     } 	  
+
+
+		}
+
+
+		/*
 		$this->form_validation->set_rules( 'imagen', 'imagen', 'required|xss_clean');
 		if ( $this->form_validation->run() == FALSE ){
 			echo validation_errors('<span class="error">','</span>');
-		}
+		}*/
 
 		if  ($data['datos'] ) {
 			$this->load->view( 'sitio/fotoimagen/croppear',$data );	
@@ -46,6 +57,21 @@ class Fotoimagen extends CI_Controller {
 
 		}
 		
+	}
+
+
+	
+	public function revisar_imagenes(){
+
+		$data['id_session']     = $_POST['id_session'];
+		$data['id_diseno']      = $_POST['id_diseno'];
+			  $data['ano']      = $_POST['ano'];
+
+		$data['datos']          = $this->modelo_fotoimagen->revisar_imagenes( $data );			  
+		echo json_decode($data['datos']);
+
+
+
 	}
 
 

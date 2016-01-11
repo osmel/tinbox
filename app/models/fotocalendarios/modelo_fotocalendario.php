@@ -56,7 +56,26 @@
 
 
 
-
+ //correo logueo
+ public function calenda_activos($data){
+            $this->db->select("id_tamano");         
+            $this->db->from($this->fotocalendario_temporal);
+            $where = '(
+                        (
+                          ( id_session =  "'.$data['id_session'].'" )                           
+                         )
+              )';   
+  
+            $this->db->where($where);
+            
+            $info = $this->db->get();
+            if ($info->num_rows() > 0) {
+                return $info->result();
+            }    
+            else
+                return false;
+            $info->free_result();
+    } 
 
 
 
@@ -67,7 +86,7 @@
     /////////////////////////////////////////////    
     /////////////////////////////////////////////
     public function listado_listas($data){
-            $this->db->select("l.id, l.uid_lista, l.correo, l.nombre");         
+            $this->db->select("l.id, l.id_session, l.correo, l.nombre");         
             $this->db->from($this->fotocalendario_lista.' As l');
             $this->db->where('l.correo',$data['correo_activo']);
             $result = $this->db->get(  );
@@ -79,15 +98,17 @@
      }  
      
   public function listadias_cambiar($data){
-            $this->db->select("l.id, l.uid_lista, l.correo, l.nombre");         
+            $this->db->select("l.id, l.id_session, l.correo, l.nombre");         
             $this->db->select("d.ano, d.mes, d.dia, d.valor");         
             $this->db->from($this->fotocalendario_lista.' As l');
-            $this->db->join($this->lista_fechas_especiales.' As d', 'd.uid_lista = l.uid_lista','LEFT');
+            $this->db->join($this->lista_fechas_especiales.' As d', 'l.id = d.id_lista','LEFT');
       $where = '(
                       (
-                        ( l.correo =  '.$data['correo_activo'].' ) AND ( l.id =  '.$data['id_lista'].' ) 
+                        ( l.correo =  '.$data['correo_activo'].' ) AND ( l.id =  '.$data['id_lista'].' )  
                        )
             )';   
+
+
       $this->db->where($where);
             $result = $this->db->get(  );
                 if ($result->num_rows() > 0)
@@ -97,10 +118,10 @@
                 $result->free_result();
     }            
  public function listames_cambiar($data){
-            $this->db->select("l.id, l.uid_lista, l.correo, l.nombre");         
+            $this->db->select("l.id, l.id_session, l.correo, l.nombre");         
             $this->db->select("m.ano, m.mes,  m.valor");         
             $this->db->from($this->fotocalendario_lista.' As l');
-            $this->db->join($this->lista_nombre_meses.' As m', 'm.uid_lista = l.uid_lista','LEFT');
+            $this->db->join($this->lista_nombre_meses.' As m', 'l.id = m.id_lista','LEFT');
             $where = '(
                             (
                               ( l.correo =  '.$data['correo_activo'].' ) AND ( l.id =  '.$data['id_lista'].' ) 
@@ -301,13 +322,19 @@
 /////////////////////////ver lista de un diseño particular////////////////////////////////////
   public function listadias_fcalendario($data){
             $this->db->select("d.ano, d.mes, d.dia, d.valor");         
-            $this->db->from($this->fotocalendario_temporal.' As l');
-            $this->db->join($this->fechas_especiales.' As d', 'd.id_session = l.id_session','LEFT');
+            //$this->db->from($this->fotocalendario_temporal.' As l');
+            //$this->db->join($this->fechas_especiales.' As d', 'd.id_session = l.id_session','LEFT');
+            $this->db->from($this->fechas_especiales.' As d');
             $where = '(
                       (
-                        ( l.id_session =  "'.$data['id_session'].'" )
+                        ( d.id_session =  "'.$data['id_session'].'" ) AND
+                          ( d.id_tamano =  '.$data['id_tamano'].' )  
+
                        )
             )';   
+          
+
+
            $this->db->where($where);
             $result = $this->db->get( );
                 if ($result->num_rows() > 0)
@@ -319,11 +346,15 @@
  public function listames_fcalendario($data){
             
             $this->db->select("m.ano, m.mes,  m.valor");         
-            $this->db->from($this->fotocalendario_temporal.' As l');
-            $this->db->join($this->nombre_meses.' As m', 'm.id_session = l.id_session','LEFT');
+            //$this->db->from($this->fotocalendario_temporal.' As l');
+            //$this->db->join($this->nombre_meses.' As m', 'm.id_session = l.id_session','LEFT');
+
+            $this->db->from($this->nombre_meses.' As m');
+
             $where = '(
                             (
-                              ( l.id_session =  "'.$data['id_session'].'" )
+                              ( m.id_session =  "'.$data['id_session'].'" ) AND
+                              ( m.id_tamano =  '.$data['id_tamano'].' ) 
                              )
                   )';   
             $this->db->where($where);
@@ -338,13 +369,14 @@
 ///////////////////////fin de eliminar ///////////////////////////      
      //listas
      public function anadir_lista($data){
-           $this->db->set( 'uid_lista', $data['uid_lista'] );  
+           $this->db->set( 'id_session', $data['id_session'] );  
            $this->db->set( 'nombre', $data['nombre_lista'] );  
            $this->db->set( 'correo', $data['correo_lista'] );   //+1
            $this->db->insert($this->fotocalendario_lista);
           
           if ($this->db->affected_rows() > 0){
-                    return TRUE;
+                    //return TRUE;
+                    return $this->db->insert_id();
                 } else {
                     return FALSE;
                 }
@@ -352,11 +384,17 @@
      }
       public function anadir_lista_listadias($data){
           foreach ($data['listadias'] as $llave => $valor) {
-               $this->db->set( 'uid_lista', $data['uid_lista'] );  
+               $this->db->set( 'id_session', $data['id_session'] );  
                $this->db->set( 'ano', $valor['ano'] );  
                $this->db->set( 'mes', $valor['mes'] );   //+1
                $this->db->set( 'dia', $valor['dia'] );  
                $this->db->set( 'valor', $valor['valor'] );  
+
+               $this->db->set( 'id_lista', $data['id_lista'] );  
+
+               
+
+
                $this->db->insert($this->lista_fechas_especiales);
             } 
             
@@ -372,10 +410,13 @@
          
           foreach ($data['nombre_mes'] as $llave => $valor) {
             if (isset($valor['ano'])) {
-                 $this->db->set( 'uid_lista', $data['uid_lista'] );  
+                 $this->db->set( 'id_session', $data['id_session'] );  
                  $this->db->set( 'ano', $valor['ano'] );  
                  $this->db->set( 'mes', $valor['mes'] );  //+1
                  $this->db->set( 'valor', $valor['valor'] );  
+                 
+                 $this->db->set( 'id_lista', $data['id_lista'] );  
+
                  $this->db->insert($this->lista_nombre_meses);
              }    
             } 

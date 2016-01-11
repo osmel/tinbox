@@ -1,27 +1,80 @@
 jQuery(document).ready(function($) {
 
 
-	//activar los slider que ya se han llenado
-	for (var i = 1 ; i <= parseInt($.miespacionombre.posicionDiseno); i++) {
-	  jQuery('.editar_slider[value="'+i+'"]').prop('disabled', false);	
-	};
+	//Activar los slider que ya se han llenado (es)
+		
+		var id_session = $('#id_session').val();
+	    var id_tamano  = $('#movposicion').val();
+
+	    //alert(id_session);
+
+	    var url = 'http://localhost/tinbox/calenda_activos'; 
+		$.ajax({
+		    url: url,
+		    method: "POST",
+	        dataType: 'json',
+	          data: {
+	              id_tamano:id_tamano,
+	              id_session:id_session,
+	              ano:ano
+	          },
+
+			success: function(datos_llenos){
+				  $.each(datos_llenos, function (i, valor) { 
+					  	console.log(valor.id_tamano);
+
+					  	jQuery('.editar_slider[value="'+valor.id_tamano+'"]').prop('disabled', false);	
+				  });
+			} 
+		});
+		 
+		  
+
 
 	//marcar el elemento activo
 	jQuery('.editar_slider[value="'+$.miespacionombre.movposicion+'"]').parent().parent().css({"border-color": "red", 
 	             								"border-weight":"8px", 	
 	             								"border-style":"solid"});
 
+	//editar un slider (editar un diseño)
+	var valor_slider=0;
+	jQuery('body').on('click','.editar_slider', function (e) {   
+		//valor_slider=parseInt(e.target.value);
+	 	//jQuery("#form_validar_fotocalendario").trigger('submit');
+	 	//alert('editando');
+
+
+			//jQuery('#foo').css('display','block');
+			//var spinner = new Spinner(opts).spin(target);
+
+		  var id_session = $('#id_session').val();
+		  var id_tamano = e.target.value;
+
+            var catalogo= 'http://localhost/tinbox/fotocalendario/'+$.base64.encode(id_session);
+            //spinner.stop();
+            //$('#foo').css('display','none');
+
+            hrefPost('POST', catalogo, {
+                  id_tamano_edicion : id_tamano,
+
+            }, ''); 
+
+
+
+
+
+
+	 	
+	});	
+
 
 
 	for (var i = 1 ; i <= parseInt($.miespacionombre.cantDiseno_original); i++) {
-	  	
 	  	arreglo = $.miespacionombre.array_eliminar;
 	  	if (((arreglo.indexOf(i.toString()))>=0))  {
 
 	  		jQuery('.cuadro_slider[value="'+i+'"]').css({"display":"none"});	
 	  	}
-
-
 	};
 
 
@@ -331,7 +384,7 @@ jQuery(document).ready(function($) {
 			nombreMes();		
 
 			//para tomar la lista de checkBox
-			listCheck = [];
+			var listCheck = [];
 			jQuery("input[name='coleccion_id_logo[]']:checked").each(function() {
 			     listCheck.push(jQuery(this).val());
 			});		
@@ -413,12 +466,14 @@ jQuery(document).ready(function($) {
 									spinner.stop();
 									jQuery('#foo1').css('display','none');
 
-									//document.location.href = 'http://localhost/tinbox/fotoimagen/'+jQuery.base64.encode(jQuery('#id_session').val());
 									
 									var $catalogo = 'http://localhost/tinbox/fotoimagen/'+jQuery.base64.encode(jQuery('#id_session').val());
 												
 												hrefPost('POST', $catalogo, {
 													      'id_tamano':jQuery('#movposicion').val(),
+										      				   'ano': jQuery("#almanaque").attr('anomostrado'),
+																'mes':'0' //para q comience en el mes de enero
+
 
 											    }, ''); 
 
@@ -451,14 +506,6 @@ jQuery(document).ready(function($) {
 
 	    	    	
 
-		//editar un slider
-		var valor_slider=0;
-		jQuery('body').on('click','.editar_slider', function (e) {   
-			valor_slider=parseInt(e.target.value);
-		 	jQuery("#form_validar_fotocalendario").trigger('submit');
-		 	
-		});	
-
 
 
 		function randomString(len, an){
@@ -473,169 +520,6 @@ jQuery(document).ready(function($) {
 
 
 
-		jQuery('body').on('submit','#form_guardar_lista11', function (e) {
-
-				//evitar q se ejecute el submit
-		 	event.preventDefault();
-
-			jQuery('#foo').css('display','block');
-
-			var spinner = new Spinner(opts).spin(target);
-
-			//asignar el mes activo, para que entre en el arra
-			nombreMes();		
-
-			//para tomar la lista de checkBox
-			listCheck = [];
-			jQuery("input[name='coleccion_id_logo[]']:checked").each(function() {
-			     listCheck.push(jQuery(this).val());
-			});		
-
-					
-				//este es el formulario de la session 3
-				var datoFormulario = new FormData(document.getElementById("form_validar_fotocalendario"));
-
-				//el arreglo de día y meses
-				datoFormulario.append('listadias', JSON.stringify($.miespacionombre.listaDias));
-				datoFormulario.append('nombre_mes', JSON.stringify($.miespacionombre.nombre_mes));
-
-				//los datos del formulario modal
-				datoFormulario.append('nombre_lista', jQuery('#nombre_lista').val());
-				datoFormulario.append('correo_lista', jQuery('#correo_lista').val());
-
-				//el valor de la session q esta en uso
-				
-				if 	($.miespacionombre.id_session=='') {
-					$.miespacionombre.id_session = randomString(20); 
-				}
-
-
-				datoFormulario.append('id_session', $.miespacionombre.id_session);
-				
-	  			datoFormulario.append('cantDiseno_original', $.miespacionombre.cantDiseno_original);
-				datoFormulario.append('cantDiseno', $.miespacionombre.cantDiseno);
-				datoFormulario.append('movposicion',$.miespacionombre.movposicion);
-
-
-
-				//estatus para guardar o no guardar lista
-				datoFormulario.append('guardar', guardar);
-				
-
-				datoFormulario.append('coleccion_id_logo', listCheck);
-
-				//este es el email activo	
-				email_lista = $.miespacionombre.correo_activo;
-
-				if (guardar=="guardar") {
-
-						url='guardar_lista';
-						email_lista = jQuery('#correo_lista').val();
-
-				} else {
-					url='noguardar_lista';
-				} 
-
-				 
-				$.ajax({
-				    url: url,
-				    type: 'POST',
-				    data:  datoFormulario,
-				    		
-				    async: false,
-				    cache: false,
-				    contentType: false,
-				    processData: false,
-
-					success: function(data){
-						if(data != true){
-							
-							spinner.stop();
-							jQuery('#foo1').css('display','none');
-							jQuery('#messages1').css('display','block');
-							jQuery('#messages1').addClass('alert-danger');
-							jQuery('#messages1').html(data);
-							jQuery('html,body').animate({
-								'scrollTop': jQuery('#messages1').offset().top
-							}, 1000);
-						
-							
-						}else{
-		  							$catalogo = e.target.name;
-									spinner.stop();
-									jQuery('#foo1').css('display','none');
-
-									    //console.log($.miespacionombre.posicionDiseno);
-									    if (valor_slider==0) {
-
-									    	//siguiente calendario
-									    	if (jQuery.miespacionombre.posicionDiseno!=jQuery.miespacionombre.movposicion) {
-									    		movi= parseInt(jQuery.miespacionombre.posicionDiseno);
-									    		movipos= parseInt(jQuery.miespacionombre.posicionDiseno); //movi;
-									    		//movipos= parseInt(jQuery.miespacionombre.movposicion)+1;
-									    	} else {
-
-									    		movi= parseInt($.miespacionombre.posicionDiseno);
-												movipos= parseInt($.miespacionombre.posicionDiseno);
-									    		for (var i = parseInt($.miespacionombre.posicionDiseno)+1; i <= parseInt($.miespacionombre.cantDiseno_original) ; i++) {
-															  	
-															  	arreglo = $.miespacionombre.array_eliminar;
-															  	if (!((arreglo.indexOf(i.toString()))>=0))  {  
-																		movi= i;
-															    		movipos= i;
-																		bandera=true;
-																		break;
-															  	}
-
-												};
-
-
-
-									    	}
-
-													hrefPost('POST', '/'+$catalogo, {
-													      correo_activo: email_lista,
-													cantDiseno_original: jQuery.miespacionombre.cantDiseno_original, 
-													         cantDiseno:jQuery.miespacionombre.cantDiseno,
-													     posicionDiseno:movi,
-													        movposicion:movipos,
-
-													        id_session:jQuery.miespacionombre.id_session,
-													    array_eliminar:jQuery.miespacionombre.array_eliminar.toString(),
-													    finalizar: $('#cont_session3').val()
-
-											    }, ''); 
-									    } else {
-
-									    	//editar slider
-													hrefPost('POST', '/'+$catalogo, { //no se mueva, que retorne al mismo lugar
-													      correo_activo: email_lista,
-													cantDiseno_original: jQuery.miespacionombre.cantDiseno_original, 												      
-													         cantDiseno:jQuery.miespacionombre.cantDiseno,
-													     posicionDiseno:parseInt(jQuery.miespacionombre.posicionDiseno)+0,
-													     movposicion:valor_slider,
-
-													     id_session:jQuery.miespacionombre.id_session,
-													 array_eliminar:jQuery.miespacionombre.array_eliminar.toString()
-
-													     
-											    }, ''); 
-									    }
-
-									    valor_slider=0;
-
-
-
-
-						}
-					} 
-
-
-
-				  });
-				 
-				  return false;
-				});
 						
 
 		hrefPost = function(verb, url, data, target) {

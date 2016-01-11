@@ -19,6 +19,11 @@
 
 </head>
 <body>
-	 
+	 	
+	 	<!--este es para mensaje de error -->
+	 	
+	 <div id="foo"></div>
+	 <div class="alert" id="messages"></div>
+
 <?php //$this->load->view( 'navbar' ); ?>
 	<?php //$this->load->view( 'carrusel' ); ?>
