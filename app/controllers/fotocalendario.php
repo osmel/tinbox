@@ -51,6 +51,12 @@ class Fotocalendario extends CI_Controller {
 			//para mostrar las listas asociada a este usuario 
 			$data['listas'] = $this->modelo_fotocalendario->listado_listas($data);
 
+			/*
+	     		$data['uid_fotocalendario']   = $this->input->post('uid_fotocalendario');	
+	 	      	$dato['listas_dia'] = $this->modelo_fotocalendario->listadias_fcalendario($data);
+	  		  	$dato['list_mes'] = $this->modelo_fotocalendario->listames_fcalendario($data);
+			*/ 
+
 			$this->load->view( 'sitio/fotocalendario/seccion3', $data );	
 
 		 } 	
@@ -275,7 +281,7 @@ class Fotocalendario extends CI_Controller {
 	}
 	public function diseno_lista(){
 		
-         	  $data['uid_fotocalendario']   = $this->input->post('uid_fotocalendario');	
+         	  $data['id_session']   = $this->input->post('id_session');	
      	      $dato['listas_dia'] = $this->modelo_fotocalendario->listadias_fcalendario($data);
       		  $dato['list_mes'] = $this->modelo_fotocalendario->listames_fcalendario($data);
 		      	   

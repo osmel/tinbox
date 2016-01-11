@@ -112,7 +112,9 @@
 	//cada comienzo de diseño en particular
 
 				
-			   uid_fotocalendario = $("#uid_fotocalendario").val();
+			   //uid_fotocalendario = $("#uid_fotocalendario").val();
+
+			    id_session = $("#id_session").val();
 	
 			 	url ="http://localhost/tinbox/diseno_lista";
 
@@ -120,10 +122,8 @@
 					    url: url,
 					    type: 'POST',
 					    dataType: "json",
-					    data:  {
-					    	
-					    	uid_fotocalendario:uid_fotocalendario
-
+					    data:  {					    	
+					    	id_session:id_session
 					    },
 					    		
 						success: function(data){

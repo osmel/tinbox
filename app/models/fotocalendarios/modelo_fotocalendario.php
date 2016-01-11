@@ -300,13 +300,12 @@
      //fin del fotocalendario
 /////////////////////////ver lista de un diseño particular////////////////////////////////////
   public function listadias_fcalendario($data){
-            //$this->db->select("l.id, l.uid_fotocalendario, l.correo, l.nombre");         
             $this->db->select("d.ano, d.mes, d.dia, d.valor");         
             $this->db->from($this->fotocalendario_temporal.' As l');
-            $this->db->join($this->fechas_especiales.' As d', 'd.uid_fotocalendario = l.uid_fotocalendario','LEFT');
+            $this->db->join($this->fechas_especiales.' As d', 'd.id_session = l.id_session','LEFT');
             $where = '(
                       (
-                        ( l.uid_fotocalendario =  "'.$data['uid_fotocalendario'].'" )
+                        ( l.id_session =  "'.$data['id_session'].'" )
                        )
             )';   
            $this->db->where($where);
@@ -318,13 +317,13 @@
                 $result->free_result();
     }            
  public function listames_fcalendario($data){
-            //$this->db->select("l.id, l.uid_fotocalendario, l.correo, l.nombre");         
+            
             $this->db->select("m.ano, m.mes,  m.valor");         
             $this->db->from($this->fotocalendario_temporal.' As l');
-            $this->db->join($this->nombre_meses.' As m', 'm.uid_fotocalendario = l.uid_fotocalendario','LEFT');
+            $this->db->join($this->nombre_meses.' As m', 'm.id_session = l.id_session','LEFT');
             $where = '(
                             (
-                              ( l.uid_fotocalendario =  "'.$data['uid_fotocalendario'].'" )
+                              ( l.id_session =  "'.$data['id_session'].'" )
                              )
                   )';   
             $this->db->where($where);
