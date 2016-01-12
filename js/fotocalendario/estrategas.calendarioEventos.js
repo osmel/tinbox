@@ -99,11 +99,6 @@
 			});
 
 
-
-
-
-
-
 			//evento cambio de mes con las "flechitas"
 			cambiarMes(miCalendario, OpcionesEventos);
 

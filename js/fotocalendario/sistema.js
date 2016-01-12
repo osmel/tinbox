@@ -6,7 +6,11 @@ jQuery(document).ready(function($) {
 		var id_session = $('#id_session').val();
 	    var id_tamano  = $('#movposicion').val();
 
-	    //alert(id_session);
+	    
+	    var cambio ='no';
+	    var cambio_diseno =0;
+
+	    var elimina_diseno =0;
 
 	    var url = 'http://localhost/tinbox/calenda_activos'; 
 		$.ajax({
@@ -21,8 +25,7 @@ jQuery(document).ready(function($) {
 
 			success: function(datos_llenos){
 				  $.each(datos_llenos, function (i, valor) { 
-					  	console.log(valor.id_tamano);
-
+					  	//console.log(valor.id_tamano);
 					  	jQuery('.editar_slider[value="'+valor.id_tamano+'"]').prop('disabled', false);	
 				  });
 			} 
@@ -36,38 +39,142 @@ jQuery(document).ready(function($) {
 	             								"border-weight":"8px", 	
 	             								"border-style":"solid"});
 
-	//editar un slider (editar un diseño)
-	var valor_slider=0;
+
+	//editar un slider (editar un diseño). Cuando hay un cambio de diseño
+	//var valor_slider=0;
+
 	jQuery('body').on('click','.editar_slider', function (e) {   
-		//valor_slider=parseInt(e.target.value);
-	 	//jQuery("#form_validar_fotocalendario").trigger('submit');
-	 	//alert('editando');
+		if (id_tamano!= e.target.value) {
+			 	cambio ='si';
+			 	cambio_diseno=e.target.value;
+			 	jQuery("#form_validar_fotocalendario").trigger('submit');  //provocar el evento q valida todo
 
-
-			//jQuery('#foo').css('display','block');
-			//var spinner = new Spinner(opts).spin(target);
-
-		  var id_session = $('#id_session').val();
-		  var id_tamano = e.target.value;
-
-            var catalogo= 'http://localhost/tinbox/fotocalendario/'+$.base64.encode(id_session);
-            //spinner.stop();
-            //$('#foo').css('display','none');
-
-            hrefPost('POST', catalogo, {
-                  id_tamano_edicion : id_tamano,
-
-            }, ''); 
+		}
+	});	
 
 
 
+	
+
+	//Desactivar "Eliminar" del elemento activo
+	jQuery('.eliminar_slider[value="'+id_tamano+'"]').prop('disabled', true);	
 
 
 
+	////////////////////////////////////////////////////////////////////////////////
+	////////////////////////COMIENZO DE LA ELIMINACION DE UN TAMAÑO ESPECIFICO//////
+	////////////////////////////////////////////////////////////////////////////////
+
+	//eliminar un id_tamaño especifico
+	jQuery('body').on('click','.eliminar_slider', function (e) {   
+		elimina_diseno = e.target.value;
+		jQuery("#modaleliminar_tamano").modal("show"); 
 	 	
 	});	
 
 
+       //Cuando cancela la "ELIMINACION DE UN TAMAÑO"
+		jQuery('#modaleliminar_tamano').on('hide.bs.modal', function(e) {
+			jQuery('#foo1').css('display','none');
+			jQuery('#messages1').css('display','none');
+		    jQuery(this).removeData('bs.modal');
+		});	
+
+
+
+	    jQuery('body').on('click','#eliminar_diseno', function (e) {
+	    	
+
+		    var url = 'http://localhost/tinbox/eliminar_diseno_completo'; 
+				$.ajax({
+				    url: url,
+				    method: "POST",
+			        dataType: 'json',
+			          data: {
+			              id_session:id_session,
+			              id_tamano:elimina_diseno,
+			              //ano:ano
+			          },
+
+					success: function(datos_eliminados){
+							  $.each(datos_eliminados, function (i, valor) { 
+								  	console.log(valor);
+							  });
+
+							jQuery('.editar_slider[value="'+elimina_diseno+'"]').parent().parent().css({	
+			             								"display":"none"});
+							jQuery("#modaleliminar_tamano").modal("hide"); 
+
+					} 
+				});
+
+
+
+	    	
+	    });	
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////final de la eliminacion/////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+	  //Activar las visualizaciones que ya se han llenado (es decir q ya tienen las 12imagenes por diseños)
+		
+
+	    var url = 'http://localhost/tinbox/disenos_completos'; 
+		$.ajax({
+		    url: url,
+		    method: "POST",
+	        dataType: 'json',
+	          data: {
+	              //id_tamano:id_tamano,
+	              id_session:id_session,
+	              //ano:ano
+	          },
+
+			success: function(datos_completos){
+				  
+				  $.each(datos_completos, function (i, valor) { 
+					  	if (valor.cantidad >=1) {
+						  	jQuery('.previo_slider[value="'+valor.id_tamano+'"]').prop('disabled', false);	
+						}  	
+				  });
+
+			} 
+		});
+		 
+
+
+	  //Menú
+
+	//este no tiene logica ejecutarlo	
+	jQuery('body').on('click','.personaliza_menu', function (e) {   
+			 	cambio ='si';
+			 	cambio_diseno=id_tamano;
+			 	jQuery("#form_validar_fotocalendario").trigger('submit');  //provocar el evento q valida todo
+	});	
+
+
+
+
+	jQuery('body').on('click','.agrega_menu', function (e) {   
+			 	cambio ='a_menu';
+			 	cambio_diseno=id_tamano;
+			 	jQuery("#form_validar_fotocalendario").trigger('submit');  //provocar el evento q valida todo
+	});	
+
+
+
+
+
+
+
+
+
+
+/*  esto no recuerdo para q es??????  OJO
 
 	for (var i = 1 ; i <= parseInt($.miespacionombre.cantDiseno_original); i++) {
 	  	arreglo = $.miespacionombre.array_eliminar;
@@ -77,7 +184,9 @@ jQuery(document).ready(function($) {
 	  	}
 	};
 
+*/
 
+/* ESTE ES PARA ELIMINAR UN DISEÑO
 
 	jQuery('body').on('click','.eliminar_slider', function (e) {
 	   //jQuery('.cuadro_slider[value="'+e.target.value+'"]').css({"display": "none"});
@@ -224,7 +333,7 @@ jQuery(document).ready(function($) {
 
 	});
 
-
+*/
 	$.miespacionombre.posicionDiseno
 		var opts = {
 			lines: 13, 
@@ -316,17 +425,26 @@ jQuery(document).ready(function($) {
 					
 						
 					}else{
+
+
+	  						
 	  							$catalogo = e.target.name;
 								spinner.stop();
 								jQuery('#foo').css('display','none');
 
 	      			 			if ( (Object.keys($.miespacionombre.listaDias).length===0) && (Object.keys($.miespacionombre.nombre_mes).length===0) ) {
 	      			 				//mostrar la ventana sinLista
+	      			 				
 	      			 				jQuery("#modalsinLista").modal("show"); //guardar sin lista
+
 	      			 			} else {
 	      			 				//mostrar la ventana conLista
+
 	      			 				jQuery("#modalPregunta").modal("show",{valor:10});	 //guardar con lista
 	      			 			}
+	      			 			
+
+	      			 			
 								
 					}
 				} 
@@ -461,26 +579,59 @@ jQuery(document).ready(function($) {
 						
 							
 						}else{
-						
+							
+
+
+
+
+							
 		  							$catalogo = e.target.name;
 									spinner.stop();
 									jQuery('#foo1').css('display','none');
 
-									
-									var $catalogo = 'http://localhost/tinbox/fotoimagen/'+jQuery.base64.encode(jQuery('#id_session').val());
-												
-												hrefPost('POST', $catalogo, {
-													      'id_tamano':jQuery('#movposicion').val(),
-										      				   'ano': jQuery("#almanaque").attr('anomostrado'),
-																'mes':'0' //para q comience en el mes de enero
+									if (cambio=='si') {		 //toca editar de un tamaño especifico
+											  cambio='no';
+											  var id_session = $('#id_session').val();
+											  var id_tamano = cambio_diseno; //  e.target.value;
+
+									            var catalogo= 'http://localhost/tinbox/fotocalendario/'+$.base64.encode(id_session);
+
+									            hrefPost('POST', catalogo, {
+									                  id_tamano_edicion : id_tamano,
+
+									            }, ''); 
+
+									} else if (cambio=='a_menu') {  //toca menu de agregar fotos
+										cambio='no';
+
+											var $catalogo = 'http://localhost/tinbox/fotoimagen/'+jQuery.base64.encode(jQuery('#id_session').val());
+														
+														hrefPost('POST', $catalogo, {
+															      'id_tamano':jQuery('#movposicion').val(),
+												      				   'ano': jQuery("#almanaque").attr('anomostrado'),
+																		'mes':'0' //para q comience en el mes de enero
 
 
-											    }, ''); 
+													    }, ''); 	
+
+
+
+									} else {
+
+											var $catalogo = 'http://localhost/tinbox/fotoimagen/'+jQuery.base64.encode(jQuery('#id_session').val());
+														
+														hrefPost('POST', $catalogo, {
+															      'id_tamano':jQuery('#movposicion').val(),
+												      				   'ano': jQuery("#almanaque").attr('anomostrado'),
+																		'mes':'0' //para q comience en el mes de enero
+
+
+													    }, ''); 	
+
+									}
 
 						}
 					} 
-
-
 
 				  });
 				 

@@ -528,31 +528,6 @@ $('body').on('click', '#guardar', function (e) {
 
 
 
-
-     // alert('no');
-  /*
-        if ( existe != undefined) { //si hay imagen para guardar
-            guardar2();
-        } else {  //no hay imagen para guardar
-
-                
-                $('#cont_img').remove();
-
-                var catalogo= 'http://localhost/tinbox/fotoimagen/'+$.base64.encode(session);
-
-                hrefPost('POST', catalogo, {
-                      id_diseno : parseInt($('#id_diseno').val()), //+1,
-                      ano : ano,
-                      mes : mes,
-                      imagen:'', //dejo en blanco para especificar q no hay imagen y q valide
-
-                }, ''); 
-
-
-        }
-*/
-
-
     } else {  //si fue invocado a la fuerza el trigger "para cambiar de mes"
       
         if ( existe != undefined) { //si hay imagen para guardar
@@ -585,6 +560,136 @@ $('body').on('click', '#guardar', function (e) {
 
 
 });
+
+
+
+
+
+
+
+
+
+ //para guardar la imagen cuando se regresa a una "edicion de diseño"
+function guardar4(id_tamano) {
+  var result;
+
+  var session = $('#session').val();
+  var id_diseno = $('#id_diseno').val();
+  var ano = $('#ano').val();
+  var mes = $('#mes').val();
+
+  
+  var tipo_archivo= ($('#image').attr('tipo_archivo'));
+  var nombre = ($('#image').attr('nombre'));
+  
+  var tipo = ($('#image').attr('tipo'));
+  var ext = ($('#image').attr('ext'));
+  var tamano = ($('#image').attr('tamano'));
+  var ancho = ($('#image').attr('ancho'));
+  var alto = ($('#image').attr('alto'));
+
+  
+     if ($image.data('cropper')) {
+
+          //alert('asdas');
+            
+
+            var datoimagen = $image.cropper('getImageData');
+            var datocanvas = $image.cropper('getCanvasData');
+            
+            var result =  $image.cropper('getCroppedCanvas'); //
+            var datos =  $image.cropper('getData');
+
+            var datocropbox =  $image.cropper('getCropBoxData');
+
+            var croppedImageDataURL = result.toDataURL(tipo_archivo); 
+            var formData = new FormData();
+
+            formData.append('datoimagen', JSON.stringify(datoimagen));
+            formData.append('datocanvas', JSON.stringify(datocanvas));
+
+            formData.append('croppedImage', croppedImageDataURL);//
+            
+            formData.append('datos', JSON.stringify(datos));
+            formData.append('datocropbox', JSON.stringify(datocropbox));
+
+            formData.append('session', session);
+
+            formData.append('tipo_archivo', tipo_archivo);
+            formData.append('nombre', nombre);
+            formData.append('tipo', tipo);
+            formData.append('ext', ext);
+            formData.append('tamano', tamano);
+            formData.append('ancho', ancho);
+            formData.append('alto', alto);
+
+            formData.append('ano', ano);
+            formData.append('mes', mes);
+            //formData.append('dia', dia);
+
+            formData.append('id_diseno', id_diseno);
+
+            $.ajax('http://localhost/tinbox/guardar_imagen', {
+              method: "POST",
+              data: formData,
+              processData: false,
+              contentType: false,
+              success: function(data) {  
+
+                    $('#foo').css('display','block');
+                    var spinner = new Spinner(opts).spin(target);
+
+                    var catalogo = 'http://localhost/tinbox/fotocalendario/'+$.base64.encode(session);
+                               spinner.stop();
+                               $('#foo').css('display','none');
+
+
+                                hrefPost('POST', catalogo, {
+                                      id_tamano_edicion : id_tamano,
+
+                    }, ''); 
+
+
+              },
+              error: function () {
+                console.log('Upload error');
+              }
+            }); 
+         
+     }   
+
+}
+
+
+
+//cuando editamos un diseño en las fotoImagen. Hay q evaluar si existe imagen
+//Este boton realmente no existe
+
+jQuery('body').on('click','.editar_slider', function (e) {   
+
+    //Este trigger fue invocado a la fuerza "para cambiar de mes"
+        
+        var session = $('#session').val();
+        var existe = ($('#image').attr('nombre'));  
+
+        if ( existe != undefined) { //si hay imagen para guardar
+                  guardar4(e.target.value);
+
+        } else { //no hay imagen para guardar
+
+                    var catalogo= 'http://localhost/tinbox/fotocalendario/'+$.base64.encode(session);
+                    hrefPost('POST', catalogo, {
+                          id_tamano_edicion : e.target.value,
+
+                    }, ''); 
+
+
+        }
+
+
+});
+
+
 
 
 

@@ -62,6 +62,11 @@ $route['diseno_lista']							= 'fotocalendario/diseno_lista';
 
 $route['calenda_activos']							= 'fotocalendario/calenda_activos';
 
+$route['eliminar_diseno_completo']							= 'fotocalendario/eliminar_diseno_completo';
+
+
+$route['disenos_completos']									= 'fotocalendario/disenos_completos';
+
 
 
 

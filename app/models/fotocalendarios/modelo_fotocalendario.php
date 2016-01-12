@@ -43,6 +43,10 @@
               )';   
   
             $this->db->where($where);
+
+            $this->db->order_by('fecha_mac','ASC'); //por el orden en que se agreguen los tamaños
+            //$this->db->order_by('id_tamano','ASC');
+
             
             $info = $this->db->get();
             if ($info->num_rows() > 0) {
@@ -52,8 +56,6 @@
                 return false;
             $info->free_result();
     } 
-
-
 
 
  //correo logueo
@@ -75,9 +77,39 @@
             else
                 return false;
             $info->free_result();
-    } 
+ } 
 
 
+
+ //correo logueo
+ public function disenos_completos($data){
+
+  //SELECT `id_session`, `id_diseno`, count(*) cant FROM `tinbox_fotocalendario_imagenes` group by `id_session`, `id_diseno`
+
+
+            $this->db->select("id_session,id_diseno");         
+            
+            $this->db->select("COUNT(id_diseno) as cantidad",false); 
+
+
+            $this->db->from($this->fotocalendario_imagenes);
+            $where = '(
+                        (
+                          ( id_session =  "'.$data['id_session'].'" )                           
+                         )
+              )';   
+  
+            $this->db->where($where);
+            $this->db->group_by("id_session,id_diseno");
+            
+            $info = $this->db->get();
+            if ($info->num_rows() > 0) {
+                return $info->result();
+            }    
+            else
+                return false;
+            $info->free_result();
+ } 
 
 
 
@@ -321,6 +353,9 @@
      //fin del fotocalendario
 /////////////////////////ver lista de un diseño particular////////////////////////////////////
   public function listadias_fcalendario($data){
+            
+
+
             $this->db->select("d.ano, d.mes, d.dia, d.valor");         
             //$this->db->from($this->fotocalendario_temporal.' As l');
             //$this->db->join($this->fechas_especiales.' As d', 'd.id_session = l.id_session','LEFT');
@@ -328,21 +363,21 @@
             $where = '(
                       (
                         ( d.id_session =  "'.$data['id_session'].'" ) AND
-                          ( d.id_tamano =  '.$data['id_tamano'].' )  
-
+                        ( d.id_tamano =  '.$data['id_tamano'].' )  
                        )
             )';   
-          
-
 
            $this->db->where($where);
-            $result = $this->db->get( );
-                if ($result->num_rows() > 0)
-                    return $result->result();
-                else 
-                    return FALSE;
-                $result->free_result();
-    }            
+
+           $result = $this->db->get( );
+           
+           if ($result->num_rows() > 0)
+              return $result->result();
+           else 
+              return FALSE;
+              $result->free_result();
+    }      
+
  public function listames_fcalendario($data){
             
             $this->db->select("m.ano, m.mes,  m.valor");         
@@ -354,7 +389,7 @@
             $where = '(
                             (
                               ( m.id_session =  "'.$data['id_session'].'" ) AND
-                              ( m.id_tamano =  '.$data['id_tamano'].' ) 
+                               ( m.id_tamano =  '.$data['id_tamano'].' ) 
                              )
                   )';   
             $this->db->where($where);
@@ -429,6 +464,39 @@
                 $result->free_result();
       } 
      //fin de la lista
+
+
+
+      //cuando se elimina un diseño
+    public function eliminar_diseno_completo( $data ){
+        
+        $this->db->delete( $this->fotocalendario_temporal, array( 'id_session' => $data['id_session'],  'id_tamano' => $data['id_tamano'] ) );
+        $this->db->delete( $this->fechas_especiales, array( 'id_session' => $data['id_session'],  'id_tamano' => $data['id_tamano'] ) );
+        $this->db->delete( $this->nombre_meses, array( 'id_session' => $data['id_session'],  'id_tamano' => $data['id_tamano'] ) );
+        $this->db->delete( $this->logueo_identificador, array( 'id_session' => $data['id_session'],  'id_tamano' => $data['id_tamano'] ) );
+        
+        $this->db->delete( $this->fotocalendario_imagenes, array( 'id_session' => $data['id_session'],  'id_diseno' => $data['id_tamano'] ) );
+        $this->db->delete( $this->fotocalendario_imagenes_original, array( 'id_session' => $data['id_session'],  'id_tamano' => $data['id_tamano'] ) );
+        $this->db->delete( $this->fotocalendario_imagenes_recorte, array( 'id_session' => $data['id_session'],  'id_tamano' => $data['id_tamano'] ) );
+        return TRUE;
+
+
+
+        /*if ( $this->db->affected_rows() > 0 ) return TRUE;
+        else return FALSE;*/
+
+    }
+
+
+
+
+       
+
+      
+
+
+
+
 
 
     

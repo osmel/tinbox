@@ -13,11 +13,7 @@ class Fotoimagen extends CI_Controller {
 		$data['session'] = base64_decode($session);
 
 		//$data['datos'] = $this->modelo_fotoimagen->listado_disenos($data);
-		$data['datos'] = $this->modelo_fotoimagen->correo_logueo($data);
-
-
-
-      	
+		  $data['datos'] = $this->modelo_fotoimagen->correo_logueo($data);
 
 		if (isset($_POST['id_tamano'])) {
 				$data['id_diseno']   = $_POST['id_tamano']; // el diseño que se va activar
@@ -25,7 +21,6 @@ class Fotoimagen extends CI_Controller {
 				$data['mes']  		 = $_POST['mes'];  //y en q mes
 		} else { //para recoger el 1er diseño si refresca
 	 		//$num_diseno          = $this->modelo_fotoimagen->num_diseno( $data );
-	      	
 
 			$data['datos'] = $this->modelo_fotoimagen->correo_logueo($data);
 
@@ -42,7 +37,6 @@ class Fotoimagen extends CI_Controller {
 
 
 		}
-
 
 		/*
 		$this->form_validation->set_rules( 'imagen', 'imagen', 'required|xss_clean');
@@ -69,9 +63,6 @@ class Fotoimagen extends CI_Controller {
 
 		$data['datos']          = $this->modelo_fotoimagen->revisar_imagenes( $data );			  
 		echo json_decode($data['datos']);
-
-
-
 	}
 
 

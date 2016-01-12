@@ -1,9 +1,161 @@
 $(document).ready(function() {
 
+	
+
+	    //Activar los slider que ya se han llenado (es)
+		 var id_session = $('#session').val();
+	     var id_tamano  = $('#id_diseno').val();
+   		 var ano = $('#ano').val();
+   		 var elimina_diseno =0;
+
+	    
+	    //var cambio ='no';
+	    //var cambio_diseno =0;
+
+	    var url = 'http://localhost/tinbox/calenda_activos';  //EN ESTE CASO APROVECHO EL CONTROLLER DE FOTOCALENDARIO
+		$.ajax({
+		    url: url,
+		    method: "POST",
+	        dataType: 'json',
+	          data: {
+	              id_tamano:id_tamano,
+	              id_session:id_session,
+	              ano:ano
+	          },
+
+			success: function(datos_llenos){
+				  $.each(datos_llenos, function (i, valor) { 
+					  	jQuery('.editar_slider[value="'+valor.id_tamano+'"]').prop('disabled', false);	
+				  });
+			} 
+		});
+
+
+
 	//marcar el elemento activo
 	jQuery('.editar_slider[value="'+($('#id_diseno').val())+'"]').parent().parent().css({"border-color": "red", 
 	             								"border-weight":"8px", 	
 	             								"border-style":"solid"});
+
+
+	//editar un slider se encuentra en "Main.js"
+	//jQuery('body').on('click','.editar_slider', function (e) {   
+
+
+	//Desactivar "Eliminar" del elemento activo
+	jQuery('.eliminar_slider[value="'+id_tamano+'"]').prop('disabled', true);	
+
+
+
+
+	////////////////////////////////////////////////////////////////////////////////
+	////////////////////////COMIENZO DE LA ELIMINACION DE UN TAMAÑO ESPECIFICO//////
+	////////////////////////////////////////////////////////////////////////////////
+
+	//eliminar un id_tamaño especifico
+	jQuery('body').on('click','.eliminar_slider', function (e) {   
+		elimina_diseno = e.target.value;
+		jQuery("#modaleliminar_tamano").modal("show"); 
+	 	
+	});	
+
+
+       //Cuando cancela la "ELIMINACION DE UN TAMAÑO"
+		jQuery('#modaleliminar_tamano').on('hide.bs.modal', function(e) {
+			jQuery('#foo1').css('display','none');
+			jQuery('#messages1').css('display','none');
+		    jQuery(this).removeData('bs.modal');
+		});	
+
+
+
+	    jQuery('body').on('click','#eliminar_diseno', function (e) {
+	    	
+
+		    var url = 'http://localhost/tinbox/eliminar_diseno_completo'; 
+				$.ajax({
+				    url: url,
+				    method: "POST",
+			        dataType: 'json',
+			          data: {
+			              id_session:id_session,
+			              id_tamano:elimina_diseno,
+			              //ano:ano
+			          },
+
+					success: function(datos_eliminados){
+							  $.each(datos_eliminados, function (i, valor) { 
+								  	console.log(valor);
+							  });
+
+							jQuery('.editar_slider[value="'+elimina_diseno+'"]').parent().parent().css({	
+			             								"display":"none"});
+							jQuery("#modaleliminar_tamano").modal("hide"); 
+
+					} 
+				});
+
+
+
+	    	
+	    });	
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////final de la eliminacion/////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+	  //Activar las visualizaciones que ya se han llenado (es decir q ya tienen las 12imagenes por diseños)
+		
+
+	    var url = 'http://localhost/tinbox/disenos_completos'; 
+		$.ajax({
+		    url: url,
+		    method: "POST",
+	        dataType: 'json',
+	          data: {
+	              id_session:id_session,
+	          },
+
+			success: function(datos_completos){
+				  
+				  $.each(datos_completos, function (i, valor) { 
+
+					  	if (valor.cantidad >=1) {
+						  	//console.log(valor.id_tamano);
+						  	jQuery('.previo_slider[value="'+valor.id_tamano+'"]').prop('disabled', false);	
+						}  	
+
+					  	//jQuery('.editar_slider[value="'+valor.id_tamano+'"]').prop('disabled', false);	
+				  });
+
+			} 
+		});
+		 
+
+
+
+
+		hrefPost = function(verb, url, data, target) {
+		  var form = document.createElement("form");
+		  form.action = url;
+		  form.method = verb;
+		  form.target = target || "_self";
+		  if (data) {
+		    for (var key in data) {
+		      var input = document.createElement("textarea");
+		      input.name = key;
+		      input.value = typeof data[key] === "object" ? JSON.stringify(data[key]) : data[key];
+		      form.appendChild(input);
+		    }
+		  }
+		  form.style.display = 'none';
+		  document.body.appendChild(form);
+		  form.submit();
+		};
 
 
 

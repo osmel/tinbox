@@ -34,11 +34,7 @@
     public function check_existente_imagen($data){
             $this->db->select("uid_imagen", FALSE);         
             $this->db->from($this->fotocalendario_imagenes);
-      /*
-      $this->fotocalendario_imagenes    
-      $this->fotocalendario_imagenes_original
-      $this->fotocalendario_imagenes_recorte 
-      */
+
             $where = '(
                         (
                           ( id_session =  "'.$data['id_session'].'" ) AND
@@ -106,6 +102,8 @@
      
       public function anadir_imagenes_original($data){
              $this->db->set('id_session', $data['id_session']);  
+             $this->db->set('id_tamano', $data['id_diseno']);  
+
              $this->db->set('uid_imagen', $data['uid_imagen']);  
                  $this->db->set('nombre', $data['nombre']);
            $this->db->set('tipo_archivo', $data['tipo_archivo']);  
@@ -124,22 +122,13 @@
             $result->free_result();
       }       
      
-/*
-          foreach ($data['listadias'] as $llave => $valor) {
-               $this->db->set( 'uid_lista', $data['uid_lista'] );  
-               $this->db->set( 'ano', $valor['ano'] );  
-               $this->db->set( 'mes', $valor['mes'] );   //+1
-               $this->db->set( 'dia', $valor['dia'] );  
-               $this->db->set( 'valor', $valor['valor'] );  
-               $this->db->insert($this->fotocalendario_imagenes_original);
-            } 
-*/            
+        
      public function anadir_imagenes_recorte($data){
          
              $this->db->set('id_session', $data['id_session']);  
-             $this->db->set('uid_imagen', $data['uid_imagen']);  
-             
+             $this->db->set('id_tamano', $data['id_diseno']);  
 
+             $this->db->set('uid_imagen', $data['uid_imagen']);  
              //$this->db->set('nombre', 'recorte_'.$data['nombre']);  
              $this->db->set('nombre', 'rec_'.substr($data['nombre'], 5));  
 
@@ -239,16 +228,16 @@
 ///////////////cual es el num_diseño
 
     public function num_diseno($data){
-        //return false;
-            
+
             $this->db->select("i.id_diseno");         
             $this->db->from($this->fotocalendario_imagenes.' As i');
+
             $where = '(
                         (
                           ( i.id_session =  "'.$data['session'].'" )  AND                          
                           ( i.mes =  "'.$data['mes'].'" )  
                          )
-              )';   
+            )';   
   
             $this->db->where($where);
 
@@ -276,9 +265,12 @@
                         (
                           ( id_session =  "'.$data['session'].'" )                           
                          )
-              )';   
-  
+            )';   
+              
             $this->db->where($where);
+
+            $this->db->order_by('fecha_mac','ASC'); //por el orden en que se agreguen los tamaños
+            //$this->db->order_by('id_tamano','ASC');
             
             $info = $this->db->get();
             if ($info->num_rows() > 0) {

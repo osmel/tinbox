@@ -9,8 +9,33 @@ class Fotocalendario extends CI_Controller {
         $this->load->library('Jquery_pagination');//-->la estrella del equipo		
 	}
 
+
+
+
+
+/*
+
+	//https://www.tools4noobs.com/online_php_functions/base64_encode/
 	//UTb0LDgz2Ykao07FkW2u
 	//VVRiMExEZ3oyWWthbzA3RmtXMnU=   
+
+
+INSERT INTO `tinbox_logueo_identificador` (`id`, `id_session`, `correo`, `id_diseno`, `id_tamano`, `fecha_mac`) VALUES
+(11, 'UTb0LDgz2Ykao07FkW2u', 'osmel@gmail.com', 1, 36, '2016-01-08 16:21:36'),
+(2, 'UTb0LDgz2Ykao07FkW2u', 'osmel@gmail.com', 1, 21, '2016-01-08 16:21:36'),
+(3, 'UTb0LDgz2Ykao07FkW2u', 'osmel@gmail.com', 1, 12, '2016-01-08 16:21:36'),
+(4, 'UTb0LDgz2Ykao07FkW2u', 'osmel@gmail.com', 1, 42, '2016-01-08 16:21:36'),
+
+
+(5, 'otr0LDgz2Ykao07FkW2u', 'osmel@gmail.com', 1, 303, '2016-01-12 18:54:07'),
+(6, 'otr0LDgz2Ykao07FkW2u', 'osmel@gmail.com', 1, 33, '2016-01-12 18:54:07'),
+(7, 'otr0LDgz2Ykao07FkW2u', 'osmel@gmail.com', 1, 43, '2016-01-12 18:54:07'),
+(8, 'otr0LDgz2Ykao07FkW2u', 'osmel@gmail.com', 1, 103, '2016-01-12 18:54:07');
+
+*/
+
+
+
 
 	//comienza aqui a mostrar el formulario
 	public function index($session){
@@ -80,12 +105,29 @@ class Fotocalendario extends CI_Controller {
 	}
 
 
+public function eliminar_diseno_completo(){
+
+	$data['id_session']   = $this->input->post('id_session');
+	 $data['id_tamano']   = $this->input->post('id_tamano');
+
+	 
+	 $data['eliminacion'] = $this->modelo_fotocalendario->eliminar_diseno_completo($data);
+	 echo json_encode($data);
+	//echo json_encode("osmel");
+
+
+}
+
+
+
+
+
+
 public function calenda_activos(){
 
 	$data['id_session']   = $this->input->post('id_session');
 	$data['id_tamano']   = $this->input->post('id_tamano');
 	$data['datos'] = $this->modelo_fotocalendario->calenda_activos($data);
-
 
     $cale_activo = array();
     if ($data['datos'] != false)  {     
@@ -96,8 +138,31 @@ public function calenda_activos(){
 
 	echo json_encode($cale_activo);
 
+}
+
+
+
+
+
+public function disenos_completos(){
+
+	$data['id_session']   = $this->input->post('id_session');
+	//$data['id_tamano']   = $this->input->post('id_tamano');
+	
+	$data['datos'] = $this->modelo_fotocalendario->disenos_completos($data);
+
+    $cale_activo = array();
+    if ($data['datos'] != false)  {     
+         foreach( (json_decode(json_encode($data['datos']))) as $clave =>$valor ) {
+              array_push($cale_activo,array('id_tamano' => $valor->id_diseno, 'cantidad' => $valor->cantidad));  
+       }
+    } 
+
+	echo json_encode($cale_activo);
 
 }
+
+
 
 
 
@@ -326,16 +391,16 @@ public function calenda_activos(){
 		} else { //si eliminan todo retornar a elegir diseño
 			redirect('http://localhost/tinbox');
 		}
-		
 	}
+
 	public function diseno_lista(){
 		
-         	  $data['id_session']   = base64_decode($this->input->post('id_session'));	
+         	  //$data['id_session']   = base64_decode($this->input->post('id_session'));	
+         	  $data['id_session']   = ($this->input->post('id_session'));	
          	  $data['id_tamano']   = $this->input->post('id_tamano');	
          	  
      	      $dato['listas_dia'] = $this->modelo_fotocalendario->listadias_fcalendario($data);
       		  $dato['list_mes'] = $this->modelo_fotocalendario->listames_fcalendario($data);
-		      	   
 		      	   
 		      	   
 				    $list_dia = array();
@@ -358,10 +423,8 @@ public function calenda_activos(){
 	          );              
              
              echo json_encode($todo);    
-		    // d.ano, d.mes, d.dia, d.valor
-		     //echo json_encode($list_dia);
-      	   //echo true;
 	}
+
 	public function leer_lista(){
 		
          	  $data['correo_activo']   = $this->input->post('correo_activo');
