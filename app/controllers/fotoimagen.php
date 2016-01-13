@@ -2,7 +2,7 @@
 class Fotoimagen extends CI_Controller {
 	public function __construct(){ 
 		parent::__construct();
-		$this->load->model('modelo', 'modelo'); 
+		
 		$this->load->model('fotocalendarios/modelo_fotoimagen', 'modelo_fotoimagen'); 
 		$this->load->library(array('email')); 
         $this->load->library('Jquery_pagination');//-->la estrella del equipo		
@@ -11,8 +11,7 @@ class Fotoimagen extends CI_Controller {
 	public function index($session) {
 
 		$data['session'] = base64_decode($session);
-
-		//$data['datos'] = $this->modelo_fotoimagen->listado_disenos($data);
+		
 		  $data['datos'] = $this->modelo_fotoimagen->correo_logueo($data);
 
 		if (isset($_POST['id_tamano'])) {

@@ -31,6 +31,26 @@
 
 
 
+   //totales de tamaños para una session en especifico
+ public function total_disenos($data){
+            $this->db->from($this->logueo_identificador);
+            $where = '(
+                        (
+                          ( id_session =  "'.$data['id_session'].'" )                           
+                         )
+              )';   
+            $this->db->where($where);
+
+            
+            $info = $this->db->get();
+            if ($info->num_rows() > 0) {
+                return $info->num_rows();
+            }    
+            else
+                return false;
+            $info->free_result();
+ } 
+
 
     //correo logueo
  public function correo_logueo($data){
@@ -83,9 +103,6 @@
 
  //correo logueo
  public function disenos_completos($data){
-
-  //SELECT `id_session`, `id_diseno`, count(*) cant FROM `tinbox_fotocalendario_imagenes` group by `id_session`, `id_diseno`
-
 
             $this->db->select("id_session,id_diseno");         
             
@@ -200,7 +217,7 @@
             $this->db->select("id, id_session,cantDiseno, movposicion, id_diseno, id_tamano");         
             $this->db->select("titulo, nombre, apellidos");         
             $this->db->select("id_mes, id_dia, id_festividad, id_ano, id_lista, logo, coleccion_id_logo, fecha");         
-            //, id_mes, id_dia, id_festividad, id_ano, id_lista, logo, coleccion_id_logo, fecha
+            
             $this->db->from($this->fotocalendario_temporal);
             $where = '(
                         (
@@ -479,11 +496,6 @@
         $this->db->delete( $this->fotocalendario_imagenes_original, array( 'id_session' => $data['id_session'],  'id_tamano' => $data['id_tamano'] ) );
         $this->db->delete( $this->fotocalendario_imagenes_recorte, array( 'id_session' => $data['id_session'],  'id_tamano' => $data['id_tamano'] ) );
         return TRUE;
-
-
-
-        /*if ( $this->db->affected_rows() > 0 ) return TRUE;
-        else return FALSE;*/
 
     }
 

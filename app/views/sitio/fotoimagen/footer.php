@@ -37,7 +37,8 @@
 
 
     <!-- Mi estilo -->
-    <?php  echo link_tag('css/estilo.css'); ?>
+    <?php  //echo link_tag('css/estilo.css'); ?>
+    <link rel="stylesheet" href="<?php echo base_url();?>css/fotoimagen/estilo.css">
 
     <!-- Scripts croppear  -->
     <script src="<?php echo base_url(); ?>js/fotoimagen/cropear/dist/cropper.js" type="text/javascript"></script>

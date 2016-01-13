@@ -122,19 +122,75 @@ $(document).ready(function() {
 
 			success: function(datos_completos){
 				  
-				  $.each(datos_completos, function (i, valor) { 
+				  
+				  $.each(datos_completos['cale_activo'], function (i, valor) { 
 
 					  	if (valor.cantidad >=1) {
-						  	//console.log(valor.id_tamano);
+						  	
 						  	jQuery('.previo_slider[value="'+valor.id_tamano+'"]').prop('disabled', false);	
 						}  	
 
-					  	//jQuery('.editar_slider[value="'+valor.id_tamano+'"]').prop('disabled', false);	
+					  	
 				  });
+
+				  if (datos_completos['cale_activo'].length == datos_completos['total']) {
+				  		 jQuery('#guardar').text('Revise y compre');	 
+				  		 jQuery('#guardar').val('si');	 
+				  		 jQuery('.compra_menu').prop('disabled', false);	
+				  } else {
+				  		 jQuery('#guardar').text('Continuar');	 
+				  		 jQuery('#guardar').val('no');	 
+				  		 jQuery('.compra_menu').prop('disabled', true);	
+				  }
 
 			} 
 		});
 		 
+
+
+
+
+	//visualizar "revisa y compra"	
+	jQuery('body').on('click','.previo_slider', function (e) {   
+
+	   var id_session = $('#session').val();
+	    var id_tamano = e.target.value;
+	          var ano = $("#ano").val();
+
+        var catalogo= 'http://localhost/tinbox/fotorevise/'+$.base64.encode(id_session);
+
+        hrefPost('POST', catalogo, {
+              id_tamano  : id_tamano,
+                    ano  : ano,
+
+        }, ''); 
+
+        
+	});	
+
+
+
+
+	//"revisa y compra"	 a travez de "menu_compra"
+	jQuery('body').on('click','.compra_menu', function (e) {   
+
+	   var id_session = $('#session').val();
+	    var id_tamano = $("#id_diseno").val(); 
+	          var ano = $("#ano").val();
+
+        var catalogo= 'http://localhost/tinbox/fotorevise/'+$.base64.encode(id_session);
+
+        hrefPost('POST', catalogo, {
+              id_tamano  : id_tamano,
+                    ano  : ano,
+
+        }, ''); 
+
+        
+	});	
+
+
+
 
 
 

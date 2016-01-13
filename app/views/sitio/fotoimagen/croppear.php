@@ -1,6 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
-<?php $this->load->view( 'sitio/fotoimagen/header' ); ?>      
+<?php $this->load->view( 'sitio/fotoimagen/header' ); ?>   
+
 
 <input type="text" id="session" name="session" value="<?php echo $session; ?>" >
 <input type="text" id="id_diseno" name="id_diseno" value="<?php echo $id_diseno; ?>" >
@@ -15,6 +16,8 @@
   <!-- Content -->
    
   <div class="container">
+      <?php $this->load->view( 'sitio/fotoimagen/navbar' ); ?> 
+
 
    
               <div id="meses" class="row">  

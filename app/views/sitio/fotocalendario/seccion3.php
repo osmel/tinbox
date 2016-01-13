@@ -4,7 +4,7 @@
       
  <div class="container">
 
-        <?php $this->load->view( 'sitio/fotocalendario/tabulador_fotocalendario' ); ?>
+        <?php //$this->load->view( 'sitio/fotocalendario/tabulador_fotocalendario' ); ?>
         <hr/>
         
         <?php $this->load->view( 'sitio/fotocalendario/navbar_fotocalendario' ); ?>

@@ -54,8 +54,6 @@ jQuery(document).ready(function($) {
 
 
 
-	
-
 	//Desactivar "Eliminar" del elemento activo
 	jQuery('.eliminar_slider[value="'+id_tamano+'"]').prop('disabled', true);	
 
@@ -136,29 +134,52 @@ jQuery(document).ready(function($) {
 
 			success: function(datos_completos){
 				  
-				  $.each(datos_completos, function (i, valor) { 
+				  $.each(datos_completos['cale_activo'], function (i, valor) { 
 					  	if (valor.cantidad >=1) {
 						  	jQuery('.previo_slider[value="'+valor.id_tamano+'"]').prop('disabled', false);	
 						}  	
 				  });
+
+				  if (datos_completos['cale_activo'].length == datos_completos['total']) {
+				  		 
+				  		 jQuery('.compra_menu').prop('disabled', false);	
+				  } else {
+				  		 
+				  		 jQuery('.compra_menu').prop('disabled', true);	
+				  }
+
 
 			} 
 		});
 		 
 
 
-	  //Menú
 
-	//este no tiene logica ejecutarlo	
-	jQuery('body').on('click','.personaliza_menu', function (e) {   
-			 	cambio ='si';
-			 	cambio_diseno=id_tamano;
-			 	jQuery("#form_validar_fotocalendario").trigger('submit');  //provocar el evento q valida todo
+	//visualizar "revisa y compra"	
+	jQuery('body').on('click','.previo_slider', function (e) {   
+
+
+	   var id_session = $('#id_session').val();
+	   var id_tamano = e.target.value;
+	   var ano = $("#almanaque").attr('anomostrado');
+
+        var catalogo= 'http://localhost/tinbox/fotorevise/'+$.base64.encode(id_session);
+
+        hrefPost('POST', catalogo, {
+              id_tamano  : id_tamano,
+                    ano  : ano,
+
+        }, ''); 
+
+        
 	});	
 
 
 
 
+
+	//Menú
+	//para pasar a "agrega tus fotos"
 	jQuery('body').on('click','.agrega_menu', function (e) {   
 			 	cambio ='a_menu';
 			 	cambio_diseno=id_tamano;
@@ -167,173 +188,28 @@ jQuery(document).ready(function($) {
 
 
 
+	//"revisa y compra"	 a travez de "menu_compra"
+	jQuery('body').on('click','.compra_menu', function (e) {   
+
+	   var id_session = $('#id_session').val();
+	    var id_tamano = $("#movposicion").val(); 
+	          var ano = $("#almanaque").attr('anomostrado');
+
+        var catalogo= 'http://localhost/tinbox/fotorevise/'+$.base64.encode(id_session);
+
+        hrefPost('POST', catalogo, {
+              id_tamano  : id_tamano,
+                    ano  : ano,
+
+        }, ''); 
+
+        
+	});	
 
 
 
 
 
-
-
-/*  esto no recuerdo para q es??????  OJO
-
-	for (var i = 1 ; i <= parseInt($.miespacionombre.cantDiseno_original); i++) {
-	  	arreglo = $.miespacionombre.array_eliminar;
-	  	if (((arreglo.indexOf(i.toString()))>=0))  {
-
-	  		jQuery('.cuadro_slider[value="'+i+'"]').css({"display":"none"});	
-	  	}
-	};
-
-*/
-
-/* ESTE ES PARA ELIMINAR UN DISEÑO
-
-	jQuery('body').on('click','.eliminar_slider', function (e) {
-	   //jQuery('.cuadro_slider[value="'+e.target.value+'"]').css({"display": "none"});
-	   //jQuery('.cuadro_slider[value="'+e.target.value+'"]').removeClass('cuadro_slider');
-
-			   	
-	   		jQuery.miespacionombre.array_eliminar.push(e.target.value);
-	   		
-			$catalogo ='tinbox/fotocalendario';
-			email_lista = $.miespacionombre.correo_activo;
-
-				movipos = parseInt(jQuery.miespacionombre.movposicion); 
-				posicionDiseno = parseInt(jQuery.miespacionombre.posicionDiseno); 
-
-			//si el que estas pinchando es diferente de donde estas posicionado
-			if (  e.target.value != jQuery.miespacionombre.movposicion  ) {
-				
-
-
-				//no debe moverse de lugar
-				movipos = parseInt(jQuery.miespacionombre.movposicion); 
-				posicionDiseno = parseInt(jQuery.miespacionombre.posicionDiseno); 
-
-				
-				//si el que va a borrar es igual a la ultima posicion revisada entonces q cambie de posicion, para abajo y luego para arriba
-				if ( jQuery.miespacionombre.posicionDiseno == e.target.value ) {  //
-
-					bandera=false;
-					for (var i = parseInt($.miespacionombre.posicionDiseno)-1 ; i >=1 ; i--) {
-					  	
-					  	arreglo = $.miespacionombre.array_eliminar;
-					  	if (!((arreglo.indexOf(i.toString()))>=0))  {  
-								posicionDiseno = i;       // cantDiseno
-								bandera=true;
-								break;
-					  	}
-
-					};
-
-					if (bandera==false) {
-						for (var i = parseInt($.miespacionombre.posicionDiseno)+1; i <= parseInt($.miespacionombre.cantDiseno_original) ; i++) {
-						  	
-						  	arreglo = $.miespacionombre.array_eliminar;
-						  	if (!((arreglo.indexOf(i.toString()))>=0))  {  
-									posicionDiseno= i;   // cantDiseno
-									bandera=true;
-									break;
-						  	}
-
-						};
-					}
-
-
-				}	
-
-			} else {
-
-				//si el q esta borrando es el mismo q donde esta parado
-					posicionDiseno = parseInt(jQuery.miespacionombre.posicionDiseno); 
-
-					bandera=false;
-					for (var i = parseInt($.miespacionombre.posicionDiseno)-1 ; i >=1 ; i--) {
-					  	
-					  	arreglo = $.miespacionombre.array_eliminar;
-					  	if (!((arreglo.indexOf(i.toString()))>=0))  {  
-								movipos = i;       // cantDiseno
-								bandera=true;
-								break;
-					  	}
-
-					};
-
-					if (bandera==false) {
-						for (var i = parseInt($.miespacionombre.posicionDiseno)+1; i <= parseInt($.miespacionombre.cantDiseno_original) ; i++) {
-						  	
-						  	arreglo = $.miespacionombre.array_eliminar;
-						  	if (!((arreglo.indexOf(i.toString()))>=0))  {  
-									movipos= i;   // cantDiseno
-									bandera=true;
-									break;
-						  	}
-
-						};
-					}
-
-				//si el que va a borrar es igual a la ultima posicion revisada entonces q cambie de posicion, para abajo y luego para arriba
-				if ( jQuery.miespacionombre.posicionDiseno == e.target.value ) {  //
-
-					bandera=false;
-					for (var i = parseInt($.miespacionombre.posicionDiseno)-1 ; i >=1 ; i--) {
-					  	
-					  	arreglo = $.miespacionombre.array_eliminar;
-					  	if (!((arreglo.indexOf(i.toString()))>=0))  {  
-								posicionDiseno = i;       // cantDiseno
-								bandera=true;
-								break;
-					  	}
-
-					};
-
-					if (bandera==false) {
-						for (var i = parseInt($.miespacionombre.posicionDiseno)+1; i <= parseInt($.miespacionombre.cantDiseno_original) ; i++) {
-						  	
-						  	arreglo = $.miespacionombre.array_eliminar;
-						  	if (!((arreglo.indexOf(i.toString()))>=0))  {  
-									posicionDiseno= i;   // cantDiseno
-									bandera=true;
-									break;
-						  	}
-
-						};
-					}
-
-
-				}				
-
-
-			}
-
-			cantDiseno =0;
-			for (var i = 1; i <= parseInt($.miespacionombre.cantDiseno_original) ; i++) {
-						  	
-						  	arreglo = $.miespacionombre.array_eliminar;
-						  	if (!((arreglo.indexOf(i.toString()))>=0))  {  
-									cantDiseno= i;   // cantDiseno
-						  	}
-
-			};
-
-
-			hrefPost('POST', '/'+$catalogo, {
-				      correo_activo : email_lista,
-				 cantDiseno_original: jQuery.miespacionombre.cantDiseno_original, 
-				         cantDiseno : cantDiseno, //parseInt(jQuery.miespacionombre.cantDiseno)-1,
-				     posicionDiseno : posicionDiseno,
-				        movposicion : movipos,
-				        id_session  : jQuery.miespacionombre.id_session,
-				    array_eliminar  : jQuery.miespacionombre.array_eliminar.toString()
-
-		    }, ''); 		
-				
-
-
-
-	});
-
-*/
 	$.miespacionombre.posicionDiseno
 		var opts = {
 			lines: 13, 

@@ -449,6 +449,8 @@ function guardar2() {
 
 $('body').on('click', '#guardar', function (e) {
      
+     
+
       var session = $('#session').val();
       var id_diseno  = $('#id_diseno').val();
 
@@ -465,50 +467,90 @@ $('body').on('click', '#guardar', function (e) {
     //si fue una presion real de boton 
     if (!(e.isTrigger)) { 
 
-        if ( existe != undefined) { //si hay imagen para guardar donde estoy posicionado
-            guardar2();
-        }  else { //sino hay imagenes para guardar donde estoy posicionado
+        
+        var revisa_compra=e.target.value;
 
-                    $('#foo').css('display','block');
-                    var spinner = new Spinner(opts).spin(target);
+        if (revisa_compra == 'si') { //si ya esta en "revisa y compra"
+           
+            
+              var id_session = $('#session').val();
+              var id_tamano = $("#id_diseno").val(); 
+                    var ano = $("#ano").val();
 
-                    $.ajax({
-                          url: 'http://localhost/tinbox/revisar_imagenes',
-                          method: "POST",
-                          dataType: 'json',
-                          data: {
-                              id_diseno:id_diseno,
-                              id_session:session,
-                              ano:ano
+                var catalogo= 'http://localhost/tinbox/fotorevise/'+$.base64.encode(id_session);
 
-                          },
-                          success: function(cant_imagen) { 
-                            if (cant_imagen <=1) {
+                hrefPost('POST', catalogo, {
+                      id_tamano  : id_tamano,
+                            ano  : ano,
 
-                              spinner.stop();
-                              $('#foo').css('display','none');
-                              $('#messages').css('display','block');
-                              $('#messages').addClass('alert-danger');
-                              $('#messages').html(cant_imagen);
-                              $('html,body').animate({
-                                'scrollTop': $('#messages').offset().top
-                              }, 1000);
-                            
-
-                            }else{
-
-                                var catalogo= 'http://localhost/tinbox/fotocalendario/'+$.base64.encode(session);
-                                spinner.stop();
-                                $('#foo').css('display','none');
-
-                                hrefPost('POST', catalogo, {
-                                      id_tamano : id_diseno,
-
-                                }, ''); 
+                }, ''); 
 
 
+                       ;
+        } else {  ////si todavia esta en "continuar" 
 
+            if ( existe != undefined) { //si hay imagen para guardar donde estoy posicionado
+                guardar2();
+            }  else { //sino hay imagenes para guardar donde estoy posicionado
+
+                        $('#foo').css('display','block');
+                        var spinner = new Spinner(opts).spin(target);
+
+                        $.ajax({
+                              url: 'http://localhost/tinbox/revisar_imagenes',
+                              method: "POST",
+                              dataType: 'json',
+                              data: {
+                                  id_diseno:id_diseno,
+                                  id_session:session,
+                                  ano:ano
+
+                              },
+                              success: function(cant_imagen) { 
+                                if (cant_imagen <=1) {
+
+                                  spinner.stop();
+                                  $('#foo').css('display','none');
+                                  $('#messages').css('display','block');
+                                  $('#messages').addClass('alert-danger');
+                                  $('#messages').html(cant_imagen);
+                                  $('html,body').animate({
+                                    'scrollTop': $('#messages').offset().top
+                                  }, 1000);
+                                
+
+                                }else{
+
+                                    var catalogo= 'http://localhost/tinbox/fotocalendario/'+$.base64.encode(session);
+                                    spinner.stop();
+                                    $('#foo').css('display','none');
+
+                                    hrefPost('POST', catalogo, {
+                                          id_tamano : id_diseno,
+
+                                    }, ''); 
+
+
+
+                                }
+
+
+
+
+
+
+
+                              },
+                          error: function () {
+                              console.log('Upload error');
                             }
+                        }); 
+
+
+            }  
+
+
+       }      
 
 
 
@@ -516,14 +558,8 @@ $('body').on('click', '#guardar', function (e) {
 
 
 
-                          },
-                      error: function () {
-                          console.log('Upload error');
-                        }
-                    }); 
 
 
-        }  
 
 
 
@@ -690,6 +726,31 @@ jQuery('body').on('click','.editar_slider', function (e) {
 });
 
 
+//Menú
+    //para pasar a "personaliza"
+  jQuery('body').on('click','.personaliza_menu', function (e) {   
+
+        var session = $('#session').val();
+        var existe = ($('#image').attr('nombre'));  
+        var id_tamano = $('#id_diseno').val();
+
+        if ( existe != undefined) { //si hay imagen para guardar
+                  guardar4(id_tamano);
+
+        } else { //no hay imagen para guardar
+
+                    var catalogo= 'http://localhost/tinbox/fotocalendario/'+$.base64.encode(session);
+                    hrefPost('POST', catalogo, {
+                          id_tamano_edicion : id_tamano,
+
+                    }, ''); 
+
+
+        }
+
+
+
+  }); 
 
 
 

@@ -3,7 +3,6 @@ class Fotocalendario extends CI_Controller {
 	public function __construct(){ 
 		parent::__construct();
 		
-		$this->load->model('modelo', 'modelo'); 
 		$this->load->model('fotocalendarios/modelo_fotocalendario', 'modelo_fotocalendario'); 
 		$this->load->library(array('email')); 
         $this->load->library('Jquery_pagination');//-->la estrella del equipo		
@@ -32,7 +31,28 @@ INSERT INTO `tinbox_logueo_identificador` (`id`, `id_session`, `correo`, `id_dis
 (7, 'otr0LDgz2Ykao07FkW2u', 'osmel@gmail.com', 1, 43, '2016-01-12 18:54:07'),
 (8, 'otr0LDgz2Ykao07FkW2u', 'osmel@gmail.com', 1, 103, '2016-01-12 18:54:07');
 
+
+
+INSERT INTO `tinbox_logueo_identificador` (`id`, `id_session`, `correo`, `id_diseno`, `id_tamano`, `fecha_mac`) VALUES
+(5, 'otr0LDgz2Ykao07FkW2u', 'osmel@gmail.com', 1, 303, '2016-01-12 18:54:07'),
+(6, 'otr0LDgz2Ykao07FkW2u', 'osmel@gmail.com', 1, 33, '2016-01-12 18:54:07'),
+(7, 'otr0LDgz2Ykao07FkW2u', 'osmel@gmail.com', 1, 43, '2016-01-12 18:54:07'),
+(8, 'otr0LDgz2Ykao07FkW2u', 'osmel@gmail.com', 1, 103, '2016-01-12 18:54:07');
+
+
+
+INSERT INTO `tinbox_logueo_identificador` (`id`, `id_session`, `correo`, `id_diseno`, `id_tamano`, `fecha_mac`) VALUES
+(11, 'UTb0LDgz2Ykao07FkW2u', 'osmel@gmail.com', 1, 36, '2016-01-08 16:21:36'),
+(2, 'UTb0LDgz2Ykao07FkW2u', 'osmel@gmail.com', 1, 21, '2016-01-08 16:21:36'),
+(3, 'UTb0LDgz2Ykao07FkW2u', 'osmel@gmail.com', 1, 12, '2016-01-08 16:21:36'),
+(4, 'UTb0LDgz2Ykao07FkW2u', 'osmel@gmail.com', 1, 42, '2016-01-08 16:21:36');
+
+
+
+
 */
+
+
 
 
 
@@ -108,14 +128,10 @@ INSERT INTO `tinbox_logueo_identificador` (`id`, `id_session`, `correo`, `id_dis
 public function eliminar_diseno_completo(){
 
 	$data['id_session']   = $this->input->post('id_session');
-	 $data['id_tamano']   = $this->input->post('id_tamano');
-
+	$data['id_tamano']   = $this->input->post('id_tamano');
 	 
-	 $data['eliminacion'] = $this->modelo_fotocalendario->eliminar_diseno_completo($data);
-	 echo json_encode($data);
-	//echo json_encode("osmel");
-
-
+	$data['eliminacion'] = $this->modelo_fotocalendario->eliminar_diseno_completo($data);
+	echo json_encode($data);
 }
 
 
@@ -149,6 +165,7 @@ public function disenos_completos(){
 	$data['id_session']   = $this->input->post('id_session');
 	//$data['id_tamano']   = $this->input->post('id_tamano');
 	
+	$data['total'] = $this->modelo_fotocalendario->total_disenos($data);
 	$data['datos'] = $this->modelo_fotocalendario->disenos_completos($data);
 
     $cale_activo = array();
@@ -158,7 +175,16 @@ public function disenos_completos(){
        }
     } 
 
-	echo json_encode($cale_activo);
+	//echo json_encode($cale_activo);
+
+
+	$todo = array (
+	    "cale_activo" => $cale_activo,
+	    "total"  => $data['total'],
+    );              
+ 
+   echo json_encode($todo);   
+
 
 }
 
