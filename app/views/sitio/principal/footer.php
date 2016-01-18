@@ -58,26 +58,11 @@
  
     <script type="text/javascript" src="<?php echo base_url(); ?>js/spin.min.js"></script>
 
-<!--   
-   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-
-  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-  <link rel="stylesheet" href="/resources/demos/style.css"> 
-
-  -->
-
-
-
-    <?php // echo link_tag('css/normalize.css');  ?>
     <link rel="stylesheet" href="<?php echo base_url();?>css/normalize.css">
-
-    <?php // echo link_tag('css/screen.css');  ?>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
    
-    
-
     <!--para conversion a base64.encode y base64.decode -->
     <script src="<?php echo base_url(); ?>js/base64/jquery.base64.js" type="text/javascript"></script>
     <script src="<?php echo base_url(); ?>js/base64/jquery.base64.min.js" type="text/javascript"></script>
@@ -85,22 +70,14 @@
 
 
     <!-- Mi estilo -->
-    <?php  //echo link_tag('css/fotocalendario/estilo.css'); ?>
-    <link rel="stylesheet" href="<?php echo base_url();?>css/fotocalendario/estilo.css">
+    <link rel="stylesheet" href="<?php echo base_url();?>css/fotorevise/estilo.css">
  
-    
-
-      <!-- Estilo del calendario -->
-    <link rel="stylesheet" href="<?php echo base_url();?>css/fotocalendario/calendarioEventos.css">
 
     <!-- Plugins dependiente para mostrar las fechas -->
-    <script src="<?php echo base_url(); ?>js/fotocalendario/moment.js" type="text/javascript"></script>
+    <script src="<?php echo base_url(); ?>js/fotorevise/moment.js" type="text/javascript"></script>
 
-    <script src="<?php echo base_url(); ?>js/fotocalendario/estrategas.calendarioEventos.js" type="text/javascript"></script>
-    <script src="<?php echo base_url(); ?>js/fotocalendario/calendario.js" type="text/javascript"></script>
     
-
-   <script src="<?php echo base_url(); ?>js/fotocalendario/sistema.js" type="text/javascript"></script>
+   <script src="<?php echo base_url(); ?>js/fotorevise/sistema.js" type="text/javascript"></script>
 
 </body>
 </html>

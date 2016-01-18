@@ -17,8 +17,8 @@
  <header class="cabecera">
         <h1>Tinbox la cabecera</h1>
         <time datetime="2016-01-01" pubdate>publicado 01-01-2016</time>
-    	<div id="foo"></div>
-    	<div class="alert" id="messages"></div>
+        <div id="foo"></div>
+        <div class="alert" id="messages"></div>
  </header>   
 
 <?php //$this->load->view( 'navbar' ); ?>
