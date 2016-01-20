@@ -161,8 +161,8 @@ class WC_API_Client {
 		$path = isset( $url['path'] ) ? rtrim( $url['path'], '/' ) : '';
 
 		// add WC API path
-		//$path .= '/wc-api/v2/';
-		  $path .= '/wc-api/v3/';
+		$path .= '/wc-api/v2/';
+		  //$path .= '/wc-api/v3/';
 		  //http://chat.stackoverflow.com/transcript/88497/2015/9/1/15-16
 
 		// build URL

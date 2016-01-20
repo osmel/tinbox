@@ -25,36 +25,15 @@
 
                               if (isset($valor2->categories)) {
                                 
-                                //print_r((json_encode($valor2))); die;
-                                //http://torquemag.io/working-meta-data-using-json-rest-api/
+                                //print_r(($valor2->images));
 
                                 if ($valor2->categories[0]==$categoria_activa) {
 
                                      //productos       
-/*
-
-campos ACF
-http://www.ernestojimenez.net/art/advanced-custom-fields-desarrollo-temas-wordpress/
-
-https://github.com/airesvsg/acf-to-rest-api
-
-
-  SELECT meta_key, meta_value, meta_id, post_id
-  FROM tinbox_postmeta
-  WHERE meta_key = '_product_attributes'
-  
-
-SELECT meta_key, meta_value, meta_id, post_id
-  FROM tinbox_postmeta
-  
-  WHERE meta_key = '_custom_field_type'
-  WHERE post_id = %d and meta_key LIKE %'' 
-
-  */
 ?>
                       <div class="col-md-4">
 
-                      <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalMessage<?php print_r($valor2->id); ?>">
+                      <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalMessage">
 
                               
                                 
@@ -83,14 +62,7 @@ SELECT meta_key, meta_value, meta_id, post_id
                       </div>
 
 
-
-
-
-
-
-
-
-<div class="modal fade bs-example-modal-lg" id="modalMessage<?php print_r($valor2->id); ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade bs-example-modal-lg" id="modalMessage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
         <div class="modal-content">
           
@@ -103,25 +75,14 @@ SELECT meta_key, meta_value, meta_id, post_id
 
                               <!-- galeria -->
                               <div class="row">
-
-
-                                  
-                                  <img src="<?php echo $valor2->featured_src; ?>" height="100" width="100">
-                                  <?php echo ($valor2->title);  ?>
-
-                                  <hr style="padding: 0px; margin: 15px;"/> 
-
-
-                                    Galería
                                   <?php    foreach ($valor2->images as $llave3 => $valor3) {  ?>
 
-                                           <?php if ($valor2->featured_src!= $valor3->src) { ?>
+                                           <?php    print_r($valor3); ?>
                                            
-                                           <img src="<?php echo $valor3->src; ?>" height="100" width="100">  
-                                   <?php  } } ?>
-
+                                          <!-- <img src="<?php echo $valor3->src; ?>" height="100" width="100">  -->
+                                   <?php  } ?>
                                </div>
-                                <hr style="padding: 0px; margin: 15px;"/> 
+                                
 
                   <?php 
                        //Tamaños del producto
@@ -167,5 +128,4 @@ SELECT meta_key, meta_value, meta_id, post_id
      
      
 <?php $this->load->view( 'sitio/principal/footer' ); ?>
-
 

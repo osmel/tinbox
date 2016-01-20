@@ -21,5 +21,5 @@
         <div class="alert" id="messages"></div>
  </header>   
 
-<?php //$this->load->view( 'navbar' ); ?>
+<?php //$this->load->view( 'sitio/principal/navbar' ); ?>
   <?php //$this->load->view( 'carrusel' ); ?>
